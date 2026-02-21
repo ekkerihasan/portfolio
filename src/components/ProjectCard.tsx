@@ -13,7 +13,7 @@ const projectsData = [
     goal:
       'Architected a normalized relational database with optimized indexing ensuring ACID compliance and sub-second queries.',
     technologies: ['React', 'Node.js', 'Express.js', 'PostgreSQL', 'REST API', 'SQL'],
-    githubLink: 'https://github.com/ekkerihasan',
+    githubLink: 'https://github.com/ekkerihasan/RAHAH-HealthCare',
   },
   {
     title: 'Secure Vault (Password Manager)',
@@ -31,7 +31,7 @@ const projectsData = [
     goal:
       'Designed stateless JWT authentication and optimized MySQL schema for efficient data retrieval.',
     technologies: ['Node.js', 'TypeScript', 'MySQL', 'JWT'],
-    githubLink: 'https://github.com/ekkerihasan',
+    githubLink: 'https://github.com/ekkerihasan/quiz-game',
   },
   {
     title: 'Flappy AI',
@@ -40,7 +40,7 @@ const projectsData = [
     goal:
       'Built a genetic algorithm-based neural network optimizing jump timing using spatial pipe data.',
     technologies: ['Python', 'Pygame', 'NumPy'],
-    githubLink: 'https://github.com/ekkerihasan',
+    githubLink: 'https://github.com/ekkerihasan/flappy_ai',
   },
 ];
 

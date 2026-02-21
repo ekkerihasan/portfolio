@@ -182,7 +182,7 @@ section {
 /* Responsive nav height adjustments */
 @media (max-width: 768px) {
   :root {
-    --nav-height: 40px;
+    --nav-height: 80px;
     --section-gap: 1.5rem;
   }
 }

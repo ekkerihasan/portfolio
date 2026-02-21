@@ -88,7 +88,7 @@ export default function Contact() {
 
           {/* LinkedIn Card (6 columns) */}
           <a 
-            href="https://www.linkedin.com/in/hassan-ekkeri-0a3a042b9/" 
+            href="https://www.linkedin.com/in/hasan-ekkeri-0a3a042b9/" 
             target="_blank" 
             rel="noopener noreferrer"
             className="md:col-span-6 rounded-3xl bg-slate-900/40 border border-slate-800/80 backdrop-blur-xl p-8 group hover:border-blue-500/50 hover:bg-[#0b1b3d]/40 transition-all duration-500 flex flex-col sm:flex-row sm:items-center justify-between gap-6 overflow-hidden relative"

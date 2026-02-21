@@ -127,7 +127,7 @@ export default function Footer() {
             color: 'rgba(59, 130, 246, 0.1)', 
             WebkitTextStroke: '2px rgba(59, 130, 246, 0.4)',
             textShadow: '0 0 40px rgba(59, 130, 246, 0.2)'
-          }}
+          }as any}
         >
           HASAN EKKERI
         </motion.h1>

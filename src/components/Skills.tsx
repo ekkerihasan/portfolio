@@ -7,75 +7,94 @@ import {
   SiAuth0, SiDocker, SiSqlite
 } from 'react-icons/si';
 
-const skillsData = [
-  { name: 'Node.js', icon: <SiNodedotjs className="text-[#339933]" /> },
-  { name: 'Express.js', icon: <SiExpress className="text-white" /> },
-  { name: 'JavaScript', icon: <SiJavascript className="text-[#F7DF1E]" /> },
-  { name: 'Python', icon: <SiPython className="text-[#3776AB]" /> },
-  { name: 'MySQL', icon: <SiMysql className="text-[#4479A1]" /> },
-  { name: 'PostgreSQL', icon: <SiPostgresql className="text-[#4169E1]" /> },
-  { name: 'JWT', icon: <SiJsonwebtokens className="text-[#d63aff]" /> },
-  { name: 'SQL', icon: <SiSqlite className="text-[#003B57]" /> },
-  { name: 'Auth & Security', icon: <SiAuth0 className="text-[#EB5424]" /> },
-  { name: 'Docker', icon: <SiDocker className="text-[#2496ED]" /> },
+const skillGroups = [
+  {
+    category: "Architecture & Logic",
+    skills: [
+      { name: 'Node.js', icon: <SiNodedotjs className="text-[#339933]" /> },
+      { name: 'Express.js', icon: <SiExpress className="text-brand-ink" /> },
+      { name: 'Python', icon: <SiPython className="text-[#3776AB]" /> },
+      { name: 'JavaScript', icon: <SiJavascript className="text-[#F7DF1E]" /> },
+    ]
+  },
+  {
+    category: "Data & Security",
+    skills: [
+      { name: 'PostgreSQL', icon: <SiPostgresql className="text-[#4169E1]" /> },
+      { name: 'MySQL', icon: <SiMysql className="text-[#4479A1]" /> },
+      { name: 'JWT', icon: <SiJsonwebtokens className="text-[#d63aff]" /> },
+      { name: 'Auth0', icon: <SiAuth0 className="text-[#EB5424]" /> },
+    ]
+  },
+  {
+    category: "DevOps & Core",
+    skills: [
+      { name: 'Docker', icon: <SiDocker className="text-[#2496ED]" /> },
+      { name: 'SQL', icon: <SiSqlite className="text-[#003B57]" /> },
+    ]
+  }
 ];
 
 export default function Skills() {
   return (
-    <section id="skills" className="py-24 bg-[#020617] overflow-hidden">
-      
-      {/* 1. HEADER: Clean and minimal */}
-      <div className="max-w-7xl  mx-auto px-6">
+    <section id="skills" className="py-24 md:py-32 bg-brand-cream overflow-hidden">
+      <div className="max-w-7xl mx-auto px-6">
+        
+        {/* Header */}
         <motion.div
-          initial={{ opacity: 0, x: -20 }}
-          whileInView={{ opacity: 1, x: 0 }}
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8 }}
           viewport={{ once: true }}
+          className="mb-16 md:mb-24"
         >
-          <h2 className="projects-heading text-4xl md:text-5xl text-left ml-4 font-bold text-white tracking-tight">
-           <span>Technical</span> Stack
+          <span className="text-xs uppercase tracking-[0.4em] text-brand-gold font-bold mb-4 block">
+            Expertise
+          </span>
+          <h2 className="text-4xl md:text-6xl font-semibold text-brand-ink tracking-tight">
+            Technical <span className="text-brand-gold italic font-medium">Stack.</span>
           </h2>
-          
         </motion.div>
-      </div>
 
-      {/* 2. SPACING: Explicit gap between header and icons */}
-      <div className="h-20 md:h-32" /> 
-
-      {/* 3. MARQUEE: The Floating Icon Row */}
-      <div className="relative flex items-center">
-        {/* Side Blurs */}
-        <div className="absolute left-0 z-20 w-24 md:w-48 h-full bg-linear-to-r from-[#020617] to-transparent pointer-events-none" />
-        <div className="absolute right-0 z-20 w-24 md:w-48 h-full bg-linear-to-l from-[#020617] to-transparent pointer-events-none" />
-
-        <motion.div
-          className="flex gap-10 items-center whitespace-nowrap"
-          animate={{
-            x: ["0%", "-50%"],
-          }}
-          transition={{
-            x: {
-              repeat: Infinity,
-              repeatType: "loop",
-              duration: 25,
-              ease: "linear",
-            },
-          }}
-        >
-          {[...skillsData, ...skillsData].map((skill, index) => (
-            <div
-              key={index}
-              className="flex items-center gap-6 px-8 py-5  backdrop-blur-sm group hover:border-blue-500/50 hover:bg-white/10 transition-all duration-300"
+        {/* Categorized Layout */}
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-12 lg:gap-8">
+          {skillGroups.map((group, groupIdx) => (
+            <motion.div 
+              key={groupIdx}
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              transition={{ delay: groupIdx * 0.1, duration: 0.8 }}
+              viewport={{ once: true }}
+              className="space-y-6 md:space-y-8"
             >
-              <span className="text-4xl md:text-5xl transition-transform duration-300 group-hover:scale-110">
-                {skill.icon}
-              </span>
-              <span className="text-xl font-bold text-slate-300 group-hover:text-white transition-colors">
-                {skill.name}
-              </span>
-            </div>
+              <div className="flex items-center gap-4">
+                <h3 className="text-[10px] uppercase tracking-[0.3em] font-black text-brand-ink/40 whitespace-nowrap">
+                  {group.category}
+                </h3>
+                <div className="h-px w-full bg-brand-gold/20" />
+              </div>
+              
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-1 gap-4">
+                {group.skills.map((skill, index) => (
+                  <motion.div 
+                    key={index}
+                    whileHover={{ x: 10 }}
+                    className="flex items-center gap-5 p-4 bg-white/50 backdrop-blur-sm border border-brand-gold/10 rounded-2xl group hover:bg-white hover:border-brand-gold/40 transition-all duration-300 shadow-sm hover:shadow-md"
+                  >
+                    <div className="w-12 h-12 flex items-center justify-center rounded-xl bg-brand-cream border border-brand-gold/5 group-hover:scale-110 transition-transform duration-300">
+                      <span className="text-2xl filter grayscale group-hover:grayscale-0 transition-all duration-500">
+                        {skill.icon}
+                      </span>
+                    </div>
+                    <span className="text-sm font-bold text-brand-muted group-hover:text-brand-ink tracking-tight transition-colors">
+                      {skill.name}
+                    </span>
+                  </motion.div>
+                ))}
+              </div>
+            </motion.div>
           ))}
-        </motion.div>
+        </div>
       </div>
     </section>
   );

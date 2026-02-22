@@ -2,7 +2,8 @@ import type { Config } from 'tailwindcss';
 import defaultTheme from 'tailwindcss/defaultTheme';
 
 const config: Config = {
-  darkMode: 'class',
+  // Disabling class-based dark mode to enforce the premium Cream theme
+  darkMode: 'media', 
   content: [
     './src/pages/**/*.{js,ts,jsx,tsx,mdx}',
     './src/components/**/*.{js,ts,jsx,tsx,mdx}',
@@ -11,68 +12,26 @@ const config: Config = {
   theme: {
     extend: {
       fontFamily: {
-        inter: ['var(--font-inter)', ...defaultTheme.fontFamily.sans],
-        poppins: ['var(--font-poppins)', ...defaultTheme.fontFamily.sans],
+        // Switching to a cleaner professional stack
+        sans: ['Inter', ...defaultTheme.fontFamily.sans],
       },
       colors: {
-        slate: {
-          50: '#f8fafc',
-          100: '#f1f5f9',
-          200: '#e2e8f0',
-          300: '#cbd5e1',
-          400: '#94a3b8',
-          500: '#64748b',
-          600: '#475569',
-          700: '#334155',
-          800: '#1e293b',
-          900: '#0f172a',
+        brand: {
+          cream: '#F8F4EC',
+          paper: '#EFE7DA',
+          ink: '#2B2B2B',
+          muted: '#5C5C5C',
+          gold: '#C8A97E',
+          bronze: '#A67B5B',
+          accent: '#8C6239',
         },
       },
-      keyframes: {
-        fadeInUp: {
-          from: {
-            opacity: '0',
-            transform: 'translateY(30px)',
-          },
-          to: {
-            opacity: '1',
-            transform: 'translateY(0)',
-          },
-        },
-        slideInLeft: {
-          from: {
-            opacity: '0',
-            transform: 'translateX(-30px)',
-          },
-          to: {
-            opacity: '1',
-            transform: 'translateX(0)',
-          },
-        },
-        slideInRight: {
-          from: {
-            opacity: '0',
-            transform: 'translateX(30px)',
-          },
-          to: {
-            opacity: '1',
-            transform: 'translateX(0)',
-          },
-        },
-      },
-      animation: {
-        fadeInUp: 'fadeInUp 0.7s ease-out forwards',
-        slideInLeft: 'slideInLeft 0.7s ease-out forwards',
-        slideInRight: 'slideInRight 0.7s ease-out forwards',
-      },
-      backdropBlur: {
-        xs: '2px',
+      backgroundImage: {
+        'premium-gradient': 'linear-gradient(135deg, #C8A97E, #A67B5B)',
       },
       boxShadow: {
-        'sm': '0 1px 2px 0 rgba(0, 0, 0, 0.05)',
-        'md': '0 4px 6px -1px rgba(0, 0, 0, 0.1)',
-        'lg': '0 10px 15px -3px rgba(0, 0, 0, 0.1)',
-        'xl': '0 20px 25px -5px rgba(0, 0, 0, 0.1)',
+        'soft': '0 2px 15px -3px rgba(0, 0, 0, 0.04), 0 4px 6px -2px rgba(0, 0, 0, 0.02)',
+        'medium': '0 10px 25px -5px rgba(0, 0, 0, 0.05)',
       },
     },
   },

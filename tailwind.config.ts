@@ -2,8 +2,7 @@ import type { Config } from 'tailwindcss';
 import defaultTheme from 'tailwindcss/defaultTheme';
 
 const config: Config = {
-  // Disabling class-based dark mode to enforce the premium Cream theme
-  darkMode: 'media', 
+  darkMode: 'class', // Better for manual control if you add a toggle later
   content: [
     './src/pages/**/*.{js,ts,jsx,tsx,mdx}',
     './src/components/**/*.{js,ts,jsx,tsx,mdx}',
@@ -12,26 +11,38 @@ const config: Config = {
   theme: {
     extend: {
       fontFamily: {
-        // Switching to a cleaner professional stack
-        sans: ['Inter', ...defaultTheme.fontFamily.sans],
+        // High-end pairing: Inter for UI, Instrument Serif for flair
+        sans: ['var(--font-inter)', ...defaultTheme.fontFamily.sans],
+        serif: ['var(--font-serif)', ...defaultTheme.fontFamily.serif],
       },
       colors: {
         brand: {
-          cream: '#F8F4EC',
-          paper: '#EFE7DA',
-          ink: '#2B2B2B',
-          muted: '#5C5C5C',
-          gold: '#C8A97E',
-          bronze: '#A67B5B',
-          accent: '#8C6239',
+          /* Refining colors: 
+             Cream is now cleaner, Ink is deeper (less grey), 
+             Gold is more 'champagne' and less 'yellow'.
+          */
+          cream: '#FDFCFB', 
+          paper: '#F5F2ED',
+          ink: '#1A1A1A',     // True premium dark
+          muted: '#666666',   // High readability grey
+          gold: '#B5986D',    // Sophisticated champagne gold
         },
       },
+      letterSpacing: {
+        'ultra-wide': '0.35em',
+        'tighter': '-0.04em',
+      },
       backgroundImage: {
-        'premium-gradient': 'linear-gradient(135deg, #C8A97E, #A67B5B)',
+        'grain': "url('https://grainy-gradients.vercel.app/noise.svg')",
+        'subtle-gradient': 'linear-gradient(to bottom, transparent, rgba(181, 152, 109, 0.05))',
       },
       boxShadow: {
-        'soft': '0 2px 15px -3px rgba(0, 0, 0, 0.04), 0 4px 6px -2px rgba(0, 0, 0, 0.02)',
-        'medium': '0 10px 25px -5px rgba(0, 0, 0, 0.05)',
+        'premium': '0 20px 50px rgba(0, 0, 0, 0.05)',
+        'inner-soft': 'inset 0 2px 4px 0 rgba(0, 0, 0, 0.02)',
+      },
+      /* Adding Custom Bezier Curves for Framer Motion / CSS Transitions */
+      transitionTimingFunction: {
+        'expo-in-out': 'cubic-bezier(0.87, 0, 0.13, 1)',
       },
     },
   },

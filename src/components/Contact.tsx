@@ -1,138 +1,180 @@
 'use client';
 
-import { Mail, Github, Linkedin, ArrowUpRight, Copy, Check } from 'lucide-react';
+import { Mail, Github, Linkedin, ArrowUpRight, Copy, Check, Send, User, MessageSquare, Sparkles, ChevronDown } from 'lucide-react';
 import { useState } from 'react';
-import { motion } from 'framer-motion';
-import { cn } from "@/lib/utils"; // Assuming you have a cn utility
+import { motion, AnimatePresence } from 'framer-motion';
+import { cn } from "@/lib/utils";
 
 export default function Contact() {
   const [copied, setCopied] = useState(false);
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [isSent, setIsSent] = useState(false);
 
-  const copyEmail = () => {
-    navigator.clipboard.writeText('hassanekkeri2@gmail.com');
-    setCopied(true);
-    setTimeout(() => setCopied(false), 2000);
+  // Replace with your actual key from web3forms.com
+  const WEB3FORMS_KEY = process.env.NEXT_PUBLIC_WEB3FORMS_KEY;
+
+  const onSubmit = async (e) => {
+    e.preventDefault();
+    setIsSubmitting(true);
+    
+    const formData = new FormData(e.target);
+    formData.append("access_key", WEB3FORMS_KEY);
+    formData.append("subject", `[${formData.get("project_type")}] New Message from ${formData.get("name")}`);
+
+    const object = Object.fromEntries(formData);
+    const json = JSON.stringify(object);
+
+    const res = await fetch("https://api.web3forms.com/submit", {
+      method: "POST",
+      headers: { "Content-Type": "application/json", Accept: "application/json" },
+      body: json
+    }).then((res) => res.json());
+
+    if (res.success) {
+      setIsSubmitting(false);
+      setIsSent(true);
+      e.target.reset();
+      setTimeout(() => setIsSent(false), 6000);
+    } else {
+      setIsSubmitting(false);
+      alert("Submission failed. Please try again.");
+    }
   };
 
   return (
     <section id="contact" className="w-full relative py-20 md:py-32 bg-brand-cream border-t border-black/5 overflow-hidden">
-      {/* Background Ambience - Refined Glow */}
-      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[500px] h-[500px] bg-brand-gold/10 rounded-full blur-[100px] pointer-events-none z-0" />
-      
-      <div className="container-tight relative z-10 px-6">
+      <div className="max-w-[1200px] mx-auto relative z-10 px-6">
         
-        {/* Section Header */}
-        <div className="mb-12 md:mb-20">
-          <span className="text-[10px] uppercase tracking-[0.5em] text-brand-gold font-black mb-4 block">
-            Connection
-          </span>
+        {/* Header */}
+        <div className="mb-12">
+          <div className="flex items-center gap-2 mb-4">
+             <Sparkles className="w-4 h-4 text-brand-gold animate-pulse" />
+             <span className="text-[10px] uppercase tracking-[0.5em] text-brand-gold font-black">Let's Connect</span>
+          </div>
           <h2 className="text-4xl md:text-7xl font-semibold text-brand-ink tracking-tighter leading-none">
-            Let's build <br className="hidden md:block" /> 
-            <span className="text-brand-gold italic font-medium">something solid.</span>
+            Have a project in mind? <br className="hidden md:block" /> 
+            <span className="text-brand-gold italic font-medium">Drop your thoughts.</span>
           </h2>
         </div>
 
-        {/* Bento Grid - Responsive optimization */}
-        <div className="grid grid-cols-1 md:grid-cols-12 gap-4 md:gap-6 auto-rows-auto">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
           
-          {/* Main Hero Card (Large) - Now more compact on mobile */}
+          {/* MAIN CHAT BENTO */}
           <motion.div 
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
-            className="md:col-span-12 lg:col-span-8 group relative overflow-hidden rounded-[2rem] md:rounded-[3rem] bg-brand-ink p-8 md:p-16 flex flex-col justify-between min-h-[350px] md:min-h-[450px] transition-all duration-700 hover:shadow-2xl"
+            className="lg:col-span-8 group relative overflow-hidden rounded-[2.5rem] md:rounded-[3rem] bg-brand-ink p-1 flex flex-col md:flex-row transition-all duration-700 shadow-2xl"
           >
-            <div className="absolute top-0 right-0 w-80 h-80 bg-brand-gold/15 rounded-full blur-[80px] -mr-32 -mt-32 group-hover:bg-brand-gold/25 transition-all duration-700" />
-            
-            <div className="relative z-10">
-              <h4 className="text-2xl md:text-5xl font-medium text-brand-cream mb-8 leading-[1.1] tracking-tight max-w-xl">
-                I'm currently looking for <span className="text-brand-gold italic">new challenges</span> in backend engineering.
-              </h4>
+            {/* Left side: The "Hook" */}
+            <div className="flex-1 p-8 md:p-12 flex flex-col justify-between min-h-[300px]">
+              <div className="space-y-6">
+                <h4 className="text-2xl md:text-3xl font-medium text-brand-cream leading-tight">
+                  Wanna build <br/> <span className="text-brand-gold opacity-80 italic text-3xl">something solid?</span>
+                </h4>
+                <p className="text-brand-cream/40 text-sm leading-relaxed max-w-[240px]">
+                  I usually respond within a few hours to discuss architecture and design.
+                </p>
+              </div>
+
+              <button 
+                onClick={() => {
+                  navigator.clipboard.writeText('hassanekkeri2@gmail.com');
+                  setCopied(true);
+                  setTimeout(() => setCopied(false), 2000);
+                }}
+                className="flex items-center gap-4 px-5 py-3 rounded-full bg-white/5 hover:bg-white/10 text-brand-cream border border-white/10 font-bold text-[10px] uppercase tracking-widest transition-all group/btn w-full sm:w-fit mt-12"
+              >
+                <Mail className="w-3.5 h-3.5 text-brand-gold" />
+                <span>{copied ? 'Email Copied' : 'hassanekkeri2@gmail.com'}</span>
+              </button>
             </div>
 
-            <button 
-              onClick={copyEmail}
-              className="relative z-10 flex items-center gap-4 px-6 md:px-10 py-4 md:py-5 rounded-full bg-brand-gold hover:bg-white text-brand-ink font-black text-xs md:text-sm uppercase tracking-widest transition-all duration-500 w-full md:w-fit group/btn shadow-lg"
-            >
-              <Mail className="w-4 h-4" />
-              <span className="truncate">{copied ? 'Email Copied' : 'hassanekkeri2@gmail.com'}</span>
-              {copied ? <Check className="w-4 h-4" /> : <Copy className="w-4 h-4 opacity-40 group-hover/btn:opacity-100 transition-opacity" />}
-            </button>
+            {/* Right side: The Functional Form */}
+            <div className="flex-1 bg-white m-2 rounded-[2rem] p-6 md:p-8 relative">
+              <AnimatePresence mode="wait">
+                {isSent ? (
+                  <motion.div initial={{ opacity: 0, scale: 0.9 }} animate={{ opacity: 1, scale: 1 }} className="h-full flex flex-col items-center justify-center text-center space-y-4 py-10">
+                    <div className="w-14 h-14 bg-brand-gold/10 text-brand-gold rounded-full flex items-center justify-center"><Check size={28} /></div>
+                    <p className="text-brand-ink font-bold">Inquiry Sent!</p>
+                  </motion.div>
+                ) : (
+                  <motion.form onSubmit={onSubmit} initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="space-y-4">
+                    <input type="checkbox" name="botcheck" className="hidden" style={{ display: "none" }} />
+                    <div className="grid grid-cols-2 gap-3">
+                      <div className="space-y-1">
+                        <label className="text-[9px] font-black uppercase tracking-widest text-brand-muted ml-2">Name</label>
+                        <input name="name" required placeholder="Your Name" className="w-full bg-brand-cream/30 border-none py-3 px-4 rounded-xl text-sm focus:ring-1 focus:ring-brand-gold outline-none transition-all" />
+                      </div>
+                      <div className="space-y-1">
+                        <label className="text-[9px] font-black uppercase tracking-widest text-brand-muted ml-2">Project</label>
+                        <div className="relative">
+                          <select name="project_type" className="w-full bg-brand-cream/30 border-none py-3 pl-4 pr-8 rounded-xl text-sm focus:ring-1 focus:ring-brand-gold outline-none appearance-none cursor-pointer font-medium text-brand-ink transition-all">
+                            <option value="Backend">Backend</option>
+                            <option value="Full Stack">Full Stack</option>
+                            <option value="Security">Security</option>
+                            <option value="Other">Other</option>
+                          </select>
+                          <ChevronDown className="absolute right-3 top-1/2 -translate-y-1/2 text-brand-gold pointer-events-none" size={14} />
+                        </div>
+                      </div>
+                    </div>
+                    <div className="space-y-1">
+                      <label className="text-[9px] font-black uppercase tracking-widest text-brand-muted ml-2">Email</label>
+                      <input name="email" required type="email" placeholder="email@work.com" className="w-full bg-brand-cream/30 border-none py-3 px-4 rounded-xl text-sm focus:ring-1 focus:ring-brand-gold outline-none transition-all" />
+                    </div>
+                    <div className="space-y-1 flex-1">
+                      <label className="text-[9px] font-black uppercase tracking-widest text-brand-muted ml-2">Message</label>
+                      <textarea name="message" required rows={3} placeholder="Wanna build something?" className="w-full bg-brand-cream/30 border-none py-3 px-4 rounded-xl text-sm focus:ring-1 focus:ring-brand-gold outline-none transition-all resize-none" />
+                    </div>
+                    <button disabled={isSubmitting} className="w-full py-4 bg-brand-ink text-brand-cream rounded-xl flex items-center justify-center gap-3 font-bold uppercase tracking-widest text-[10px] hover:bg-brand-gold hover:text-brand-ink transition-all active:scale-95 group shadow-lg">
+                      {isSubmitting ? "Dispatching..." : "Send Inquiry"}
+                      <Send size={14} className="group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform" />
+                    </button>
+                  </motion.form>
+                )}
+              </AnimatePresence>
+            </div>
           </motion.div>
 
-          {/* Availability Card - Cleaned up mobile padding */}
-          <motion.div 
-             initial={{ opacity: 0, y: 20 }}
-             whileInView={{ opacity: 1, y: 0 }}
-             viewport={{ once: true }}
-             transition={{ delay: 0.1 }}
-             className="md:col-span-6 lg:col-span-4 rounded-[2rem] md:rounded-[3rem] bg-white border border-black/5 p-8 md:p-10 flex flex-col justify-between relative overflow-hidden group transition-all duration-500 hover:border-brand-gold/30"
-          >
-            <div className="space-y-6">
-              <div className="w-12 h-12 rounded-2xl bg-brand-cream flex items-center justify-center border border-brand-gold/10">
-                <div className="w-2.5 h-2.5 bg-brand-gold rounded-full animate-pulse shadow-[0_0_12px_#C8A97E]" />
-              </div>
-              <div className="space-y-1">
-                <h5 className="text-[10px] uppercase tracking-widest font-black text-brand-gold">Status</h5>
-                <p className="text-2xl font-bold text-brand-ink leading-tight">Available for <br/> new projects</p>
-              </div>
-            </div>
-            <p className="text-[10px] uppercase tracking-widest font-bold text-brand-muted mt-8 border-t border-black/5 pt-4">Remote • Global</p>
-          </motion.div>
+          {/* SIDE STACK: LINKS & STATUS */}
+          <div className="lg:col-span-4 flex flex-col gap-6">
+             
+             {/* Live Status Card */}
+             <div className="rounded-[2.5rem] bg-white border border-black/5 p-8 flex flex-col justify-between hover:border-brand-gold/30 transition-all shadow-sm">
+                <div className="flex justify-between items-start">
+                  <div className="w-10 h-10 rounded-xl bg-brand-cream flex items-center justify-center border border-brand-gold/10">
+                    <div className="w-2 h-2 bg-green-500 rounded-full animate-pulse shadow-[0_0_8px_#22c55e]" />
+                  </div>
+                  <span className="text-[9px] font-black text-green-600 bg-green-50 px-2 py-1 rounded-md uppercase tracking-widest">Live Now</span>
+                </div>
+                <div className="mt-6">
+                  <h5 className="text-[10px] uppercase tracking-widest font-black text-brand-gold mb-1 text-left">Availability</h5>
+                  <p className="text-xl font-bold text-brand-ink text-left">Currently coding & <br/> taking on roles</p>
+                </div>
+             </div>
 
-          {/* GitHub Card - Responsive height */}
-          <motion.a 
-            href="https://github.com/ekkerihasan" 
-            target="_blank" 
-            className="md:col-span-6 rounded-[2rem] md:rounded-[2.5rem] bg-brand-paper/50 backdrop-blur-sm border border-black/5 p-6 md:p-8 group hover:bg-white transition-all duration-500 flex items-center justify-between"
-          >
-            <div className="flex items-center gap-5">
-              <div className="w-12 h-12 md:w-16 md:h-16 rounded-2xl bg-brand-ink flex items-center justify-center text-white transition-all duration-500 group-hover:bg-brand-gold">
-                <Github className="w-6 h-6 md:w-8 md:h-8 group-hover:text-brand-ink transition-colors" />
-              </div>
-              <div>
-                <h5 className="text-lg md:text-xl font-bold text-brand-ink">GitHub</h5>
-                <p className="text-xs text-brand-muted font-medium">Source Codes & Architecture</p>
-              </div>
-            </div>
-            <div className="w-10 h-10 rounded-full border border-black/5 flex items-center justify-center group-hover:bg-brand-ink group-hover:border-brand-ink transition-all duration-500">
-              <ArrowUpRight className="w-5 h-5 text-brand-ink group-hover:text-white transition-colors" />
-            </div>
-          </motion.a>
+             {/* Github Link */}
+             <a href="https://github.com/ekkerihasan" target="_blank" className="rounded-[2rem] bg-brand-paper/50 border border-black/5 p-6 group hover:bg-white transition-all flex items-center justify-between">
+                <div className="flex items-center gap-4 text-left">
+                   <div className="w-12 h-12 rounded-xl bg-brand-ink flex items-center justify-center text-white group-hover:bg-brand-gold transition-colors"><Github size={20}/></div>
+                   <div><p className="text-xs font-bold text-brand-ink">GitHub</p><p className="text-[10px] text-brand-muted">Architectures</p></div>
+                </div>
+                <ArrowUpRight size={18} className="text-brand-muted group-hover:text-brand-gold transition-colors" />
+             </a>
 
-          {/* LinkedIn Card */}
-          <motion.a 
-            href="https://www.linkedin.com/in/hasan-ekkeri-0a3a042b9/" 
-            target="_blank" 
-            className="md:col-span-6 rounded-[2rem] md:rounded-[2.5rem] bg-brand-paper/50 backdrop-blur-sm border border-black/5 p-6 md:p-8 group hover:bg-white transition-all duration-500 flex items-center justify-between"
-          >
-            <div className="flex items-center gap-5">
-              <div className="w-12 h-12 md:w-16 md:h-16 rounded-2xl bg-[#0077b5] flex items-center justify-center text-white transition-all duration-500 group-hover:scale-110">
-                <Linkedin className="w-6 h-6 md:w-8 md:h-8" />
-              </div>
-              <div>
-                <h5 className="text-lg md:text-xl font-bold text-brand-ink">LinkedIn</h5>
-                <p className="text-xs text-brand-muted font-medium">Professional Network</p>
-              </div>
-            </div>
-            <div className="w-10 h-10 rounded-full border border-black/5 flex items-center justify-center group-hover:bg-brand-ink group-hover:border-brand-ink transition-all duration-500">
-              <ArrowUpRight className="w-5 h-5 text-brand-ink group-hover:text-white transition-colors" />
-            </div>
-          </motion.a>
+             {/* LinkedIn Link */}
+             <a href="https://www.linkedin.com/in/hasan-ekkeri-0a3a042b9/" target="_blank" className="rounded-[2rem] bg-brand-paper/50 border border-black/5 p-6 group hover:bg-white transition-all flex items-center justify-between">
+                <div className="flex items-center gap-4 text-left">
+                   <div className="w-12 h-12 rounded-xl bg-[#0077b5] flex items-center justify-center text-white"><Linkedin size={20}/></div>
+                   <div><p className="text-xs font-bold text-brand-ink">LinkedIn</p><p className="text-[10px] text-brand-muted">Professional Network</p></div>
+                </div>
+                <ArrowUpRight size={18} className="text-brand-muted group-hover:text-brand-gold transition-colors" />
+             </a>
+          </div>
 
         </div>
       </div>
-      
-      {/* Refined Footer Addition */}
-      <footer className="mt-20 md:mt-32 py-10 border-t border-black/5 bg-brand-cream">
-        <div className="container-tight px-6 flex flex-col md:flex-row justify-between items-center gap-6 text-[9px] md:text-[10px] uppercase tracking-[0.3em] font-black text-brand-muted">
-          <span className="hover:text-brand-ink transition-colors">© 2026 HASAN EKKERI</span>
-          <div className="flex items-center gap-4">
-            <span className="w-8 h-px bg-brand-gold/30" />
-            <span className="text-brand-gold">Architecting the Back-End</span>
-          </div>
-        </div>
-      </footer>
     </section>
   );
 }

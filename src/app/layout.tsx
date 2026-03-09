@@ -1,46 +1,46 @@
 import type { Metadata } from "next";
-import { Inter, Poppins } from "next/font/google";
+import { Inter, Instrument_Serif } from "next/font/google";
 import "./globals.css";
 import Navbar from "@/components/Navbar";
-
 
 const inter = Inter({
   variable: "--font-inter",
   subsets: ["latin"],
-  weight: ["300", "400", "500", "600", "700", "800"]
 });
 
-const poppins = Poppins({
-  variable: "--font-poppins",
+const instrumentSerif = Instrument_Serif({
+  variable: "--font-serif",
   subsets: ["latin"],
-  weight: ["500", "600", "700", "800"]
+  weight: ["400"],
+  style: ["normal", "italic"],
 });
 
 export const metadata: Metadata = {
-  title: "Hasan Ekkeri - Backend & Security Developer",
-  description: "Premium developer portfolio. Backend architect & security-focused full-stack developer.",
+  title: "Hasan Ekkeri | Backend Architect & Security",
+  description: "Crafting scalable systems and secure digital architectures.",
 };
 
 export default function RootLayout({
   children,
-}: Readonly<{
+}: {
   children: React.ReactNode;
-}>) {
+}) {
   return (
     <html lang="en" className="scroll-smooth">
       <body
-        className={`${inter.variable} ${poppins.variable} antialiased overflow-x-hidden min-h-screen 
-  bg-white dark:bg-black
-  text-slate-900 dark:text-slate-100 
-  transition-colors duration-500`}
+        className={`${inter.variable} ${instrumentSerif.variable} antialiased selection:bg-brand-gold selection:text-white`}
       >
-      
+        {/* Modern Premium Background Layer */}
+        <div className="fixed inset-0 -z-50 bg-[#FDFCFB]">
+          {/* Subtle Grain Overlay */}
+          <div className="absolute inset-0 opacity-[0.03] pointer-events-none bg-[url('https://grainy-gradients.vercel.app/noise.svg')]" />
+          {/* Soft ambient glow */}
+          <div className="absolute top-[-10%] left-[-10%] w-[40%] h-[40%] rounded-full bg-brand-gold/5 blur-[120px]" />
+        </div>
 
-        {/* The floating pill navbar */}
         <Navbar />
 
-        {/* Main Content wrapper */}
-        <main className="relative z-10 pt-32">
+        <main className="relative z-10 pt-20 md:pt-32">
           {children}
         </main>
       </body>

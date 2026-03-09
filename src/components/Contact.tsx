@@ -13,12 +13,12 @@ export default function Contact() {
   // Replace with your actual key from web3forms.com
   const WEB3FORMS_KEY = process.env.NEXT_PUBLIC_WEB3FORMS_KEY;
 
-  const onSubmit = async (e) => {
+  const onSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setIsSubmitting(true);
     
-    const formData = new FormData(e.target);
-    formData.append("access_key", WEB3FORMS_KEY);
+    const formData = new FormData(e.currentTarget);
+    formData.append("access_key", WEB3FORMS_KEY!);
     formData.append("subject", `[${formData.get("project_type")}] New Message from ${formData.get("name")}`);
 
     const object = Object.fromEntries(formData);
@@ -33,7 +33,7 @@ export default function Contact() {
     if (res.success) {
       setIsSubmitting(false);
       setIsSent(true);
-      e.target.reset();
+      e.currentTarget.reset();
       setTimeout(() => setIsSent(false), 6000);
     } else {
       setIsSubmitting(false);

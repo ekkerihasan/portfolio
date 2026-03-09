@@ -12,10 +12,10 @@ const footerNavLinks = [
 ];
 
 const socialLinks = [
-  { icon: Github, href: "https://github.com/yourusername", label: "GitHub" },
-  { icon: Linkedin, href: "https://linkedin.com/in/yourusername", label: "LinkedIn" },
-  { icon: Twitter, href: "https://twitter.com/yourusername", label: "Twitter" },
-  { icon: Mail, href: "mailto:hasan@example.com", label: "Email" },
+  { icon: Github, href: "https://github.com/ekkerihasan", label: "GitHub" },
+  { icon: Linkedin, href: "https://www.linkedin.com/in/hasan-ekkeri-0a3a042b9", label: "LinkedIn" },
+  { icon: Twitter, href: "https://x.com/HasanEkkeri", label: "Twitter" },
+  { icon: Mail, href: "mailto:hassanekkeri2@gmail.com", label: "Email" },
 ];
 
 export default function Footer() {

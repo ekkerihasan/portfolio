@@ -26,12 +26,13 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en" className="scroll-smooth">
+    /* FIXED: Added bg-[#F8F4EC] and overflow-x-hidden to the root to kill the white edges */
+    <html lang="en" className="scroll-smooth bg-[#F8F4EC] overflow-x-hidden">
       <body
-        className={`${inter.variable} ${instrumentSerif.variable} antialiased selection:bg-brand-gold selection:text-white`}
+        className={`${inter.variable} ${instrumentSerif.variable} antialiased selection:bg-brand-gold selection:text-white bg-[#F8F4EC] min-h-screen relative`}
       >
-        {/* Modern Premium Background Layer */}
-        <div className="fixed inset-0 -z-50 bg-[#FDFCFB]">
+        {/* Modern Premium Background Layer - ALL ORIGINAL LOGIC PRESERVED */}
+        <div className="fixed inset-0 -z-50 bg-[#F8F4EC]">
           {/* Subtle Grain Overlay */}
           <div className="absolute inset-0 opacity-[0.03] pointer-events-none bg-[url('https://grainy-gradients.vercel.app/noise.svg')]" />
           {/* Soft ambient glow */}

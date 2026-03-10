@@ -42,7 +42,7 @@ export default function Hero() {
 
               {/* Headline - Adjusted size for mobile to feel "fuller" */}
               <h1 className="text-[2.75rem] leading-[1.1] md:text-7xl lg:text-8xl font-semibold text-brand-ink tracking-tighter">
-                Backend <br />
+                Software <br />
                 <span className="text-brand-gold italic font-medium">Developer</span>
               </h1>
 

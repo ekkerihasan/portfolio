@@ -54,18 +54,22 @@ export default function ProjectPortal() {
   useEffect(() => {
     if (selectedId) {
       document.body.style.overflow = 'hidden';
-      // If you use a global state (Zustand/Redux), update it here.
-      // Otherwise, we use a custom event your Navbar can listen to.
       window.dispatchEvent(new CustomEvent('toggleNavbar', { detail: false }));
     } else {
-      document.body.style.overflow = 'unset';
+      // Changed to empty string to properly revert to CSS defaults
+      document.body.style.overflow = '';
       window.dispatchEvent(new CustomEvent('toggleNavbar', { detail: true }));
     }
-    return () => { document.body.style.overflow = 'unset'; };
+    // Cleanup ensures scroll is restored if component unmounts while modal is open
+    return () => { document.body.style.overflow = ''; };
   }, [selectedId]);
 
   return (
-    <section className="bg-brand-cream py-32 px-6 md:px-12 min-h-screen">
+    /* Added id="projects" for scrolling and scroll-mt-32 to account for fixed navbar height */
+    <section 
+      id="projects" 
+      className="bg-brand-cream py-32 px-6 md:px-12 min-h-screen scroll-mt-32"
+    >
       <div className="max-w-4xl mx-auto">
         
         <header className="mb-24">

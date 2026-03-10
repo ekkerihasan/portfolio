@@ -48,8 +48,8 @@ export default function Hero() {
 
               {/* Subtext */}
               <p className="text-[15px] md:text-xl text-brand-muted leading-relaxed max-w-lg">
-                I build secure, scalable backend systems and full-stack solutions
-                with a focus on database design and information security.
+               "I craft fast, secure digital experiences by bridging the gap between complex database logic and user-centric design. 
+               I specialize in developing scalable systems that prioritize information security at every layer."
               </p>
             </div>
 

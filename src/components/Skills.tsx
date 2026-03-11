@@ -2,35 +2,36 @@
 
 import { motion } from 'framer-motion';
 import { 
-  SiNodedotjs, SiExpress, SiPython, SiJavascript, 
-  SiPostgresql, SiMysql, SiJsonwebtokens,
-  SiAuth0, SiDocker, SiSqlite
+  SiNodedotjs, SiPython, SiTypescript, SiReact, 
+  SiNextdotjs, SiTailwindcss, SiFramer, SiDjango,
+  SiPostgresql, SiMysql, SiFlutter, SiDart
 } from 'react-icons/si';
 
 const skillGroups = [
   {
-    category: "Architecture & Logic",
+    category: "Frontend Development",
     skills: [
-      { name: 'Node.js', icon: <SiNodedotjs /> },
-      { name: 'Express.js', icon: <SiExpress /> },
-      { name: 'Python', icon: <SiPython /> },
-      { name: 'JavaScript', icon: <SiJavascript /> },
+      { name: 'React', icon: <SiReact /> },
+      { name: 'Next.js', icon: <SiNextdotjs /> },
+      { name: 'TypeScript', icon: <SiTypescript /> },
+      { name: 'Tailwind CSS', icon: <SiTailwindcss /> },
     ]
   },
   {
-    category: "Data & Security",
+    category: "Backend Architecture",
     skills: [
+      { name: 'Python (Django)', icon: <SiPython /> },
+      { name: 'Node.js', icon: <SiNodedotjs /> },
       { name: 'PostgreSQL', icon: <SiPostgresql /> },
       { name: 'MySQL', icon: <SiMysql /> },
-      { name: 'JWT', icon: <SiJsonwebtokens /> },
-      { name: 'Auth0', icon: <SiAuth0 /> },
     ]
   },
   {
-    category: "DevOps & Core",
+    category: "Mobile & Creative",
     skills: [
-      { name: 'Docker', icon: <SiDocker /> },
-      { name: 'SQL', icon: <SiSqlite /> },
+      { name: 'Flutter', icon: <SiFlutter /> },
+      { name: 'Dart', icon: <SiDart /> },
+      { name: 'Framer Motion', icon: <SiFramer /> },
     ]
   }
 ];
@@ -38,7 +39,6 @@ const skillGroups = [
 export default function Skills() {
   return (
     <section id="skills" className="py-20 md:py-32 bg-brand-cream overflow-hidden">
-      {/* FIXED: Using px-6 for mobile to prevent 'double padding' with your global class */}
       <div className="max-w-[1200px] mx-auto px-6 lg:px-12">
         
         {/* Header */}
@@ -84,7 +84,6 @@ export default function Skills() {
                     className="flex items-center justify-between p-4 bg-white/40 border border-black/[0.03] rounded-xl group hover:bg-white hover:border-brand-gold/30 transition-all duration-500"
                   >
                     <div className="flex items-center gap-4">
-                      {/* Unified Icon Style: All icons start gold/muted and pop on hover */}
                       <span className="text-xl text-brand-muted group-hover:text-brand-gold transition-colors duration-500">
                         {skill.icon}
                       </span>
@@ -93,7 +92,6 @@ export default function Skills() {
                       </span>
                     </div>
                     
-                    {/* Tiny detail: A minimalist arrow that appears on hover */}
                     <div className="opacity-0 group-hover:opacity-100 transition-opacity duration-500">
                       <div className="w-1 h-1 rounded-full bg-brand-gold" />
                     </div>

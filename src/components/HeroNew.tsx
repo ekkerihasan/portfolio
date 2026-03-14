@@ -6,7 +6,7 @@ import Image from 'next/image';
 
 export default function Hero() {
   const handleDownloadResume = () => {
-    const resumeUrl = '/hasan-ekkeri-resume.pdf'; 
+    const resumeUrl = '/hasanekkeri-resume.pdf'; 
     const link = document.createElement('a');
     link.href = resumeUrl;
     link.download = 'Hasan_Ekkeri_Resume.pdf';

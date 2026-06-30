@@ -1,104 +1,83 @@
 'use client';
 
 import { motion } from 'framer-motion';
-import { 
-  SiNodedotjs, SiPython, SiTypescript, SiReact, 
-  SiNextdotjs, SiTailwindcss, SiFramer, SiDjango,
-  SiPostgresql, SiMysql, SiFlutter, SiDart
-} from 'react-icons/si';
+import BackgroundPattern from '@/components/BackgroundPattern';
 
-const skillGroups = [
+const capabilities = [
   {
-    category: "Frontend Development",
-    skills: [
-      { name: 'React', icon: <SiReact /> },
-      { name: 'Next.js', icon: <SiNextdotjs /> },
-      { name: 'TypeScript', icon: <SiTypescript /> },
-      { name: 'Tailwind CSS', icon: <SiTailwindcss /> },
-    ]
+    title: 'Frontend systems',
+    description:
+      'Designing React and Next.js interfaces with strong hierarchy, accessible interactions, and stable performance.',
+    items: ['React', 'Next.js', 'TypeScript', 'Tailwind CSS'],
   },
   {
-    category: "Backend Architecture",
-    skills: [
-      { name: 'Python (Django)', icon: <SiPython /> },
-      { name: 'Node.js', icon: <SiNodedotjs /> },
-      { name: 'PostgreSQL', icon: <SiPostgresql /> },
-      { name: 'MySQL', icon: <SiMysql /> },
-    ]
+    title: 'Backend & data',
+    description:
+      'Building dependable server logic, API layers, and database structures with security and maintainability in mind.',
+    items: ['Node.js', 'Python', 'Django', 'PostgreSQL'],
   },
   {
-    category: "Mobile & Creative",
-    skills: [
-      { name: 'Flutter', icon: <SiFlutter /> },
-      { name: 'Dart', icon: <SiDart /> },
-      { name: 'Framer Motion', icon: <SiFramer /> },
-    ]
-  }
+    title: 'Product delivery',
+    description:
+      'Shipping polished features with careful motion, clear copy, and a bias toward software that feels calm to use.',
+    items: ['Framer Motion', 'UI systems', 'Authentication', 'Responsive design'],
+  },
 ];
 
 export default function Skills() {
   return (
-    <section id="skills" className="py-20 md:py-32 bg-brand-cream overflow-hidden">
-      <div className="max-w-[1200px] mx-auto px-6 lg:px-12">
-        
-        {/* Header */}
+    <section id="skills" className="section-padding relative isolate overflow-hidden">
+      <BackgroundPattern variant="about" />
+      <div className="container-tight">
         <motion.div
-          initial={{ opacity: 0, y: 20 }}
+          initial={{ opacity: 0, y: 16 }}
           whileInView={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8 }}
-          viewport={{ once: true }}
-          className="mb-16"
+          transition={{ duration: 0.6, ease: 'easeOut' }}
+          viewport={{ once: true, amount: 0.4 }}
+          className="relative z-10 max-w-2xl"
         >
-          <span className="text-[10px] uppercase tracking-ultra-wide text-brand-gold font-bold mb-4 block">
-            Expertise
-          </span>
-          <h2 className="text-4xl md:text-7xl font-medium text-brand-ink tracking-tighter">
-            Technical <span className="font-serif italic text-brand-gold">Stack.</span>
+          <div className="mb-5 flex items-center gap-4">
+            <span className="h-px w-10 bg-brand-gold/60" />
+            <span className="text-[10px] font-medium uppercase tracking-[0.34em] text-brand-gold">
+              What I Build
+            </span>
+          </div>
+          <h2 className="text-[clamp(2.5rem,5vw,4.25rem)] font-semibold leading-[0.98] tracking-[-0.05em] text-brand-ink">
+            Focused engineering for products that need to feel premium.
           </h2>
+          <p className="mt-5 max-w-136 text-[16px] leading-7 text-brand-muted">
+            I prefer systems that are easy to maintain, simple to understand, and deliberate in every interaction.
+          </p>
         </motion.div>
 
-        {/* Categorized Layout */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10 md:gap-12">
-          {skillGroups.map((group, groupIdx) => (
-            <motion.div 
-              key={groupIdx}
-              initial={{ opacity: 0, y: 20 }}
+        <div className="relative z-10 mt-14 grid gap-5 lg:grid-cols-3">
+          {capabilities.map((capability, index) => (
+            <motion.article
+              key={capability.title}
+              initial={{ opacity: 0, y: 16 }}
               whileInView={{ opacity: 1, y: 0 }}
-              transition={{ delay: groupIdx * 0.1, duration: 0.8 }}
-              viewport={{ once: true }}
-              className="flex flex-col"
+              transition={{ duration: 0.55, ease: 'easeOut', delay: index * 0.08 }}
+              viewport={{ once: true, amount: 0.35 }}
+              className="rounded-3xl border border-black/6 bg-white/45 p-7 backdrop-blur-sm"
             >
-              {/* Category Label */}
-              <div className="flex items-center gap-4 mb-8">
-                <h3 className="text-[10px] uppercase tracking-ultra-wide font-bold text-brand-ink whitespace-nowrap">
-                  {group.category}
-                </h3>
-                <div className="h-[1px] w-full bg-brand-gold/20" />
-              </div>
-              
-              <div className="space-y-3">
-                {group.skills.map((skill, index) => (
-                  <motion.div 
-                    key={index}
-                    whileHover={{ x: 5 }}
-                    className="flex items-center justify-between p-4 bg-white/40 border border-black/[0.03] rounded-xl group hover:bg-white hover:border-brand-gold/30 transition-all duration-500"
+              <h3 className="text-lg font-semibold tracking-[-0.04em] text-brand-ink">
+                {capability.title}
+              </h3>
+              <p className="mt-4 text-[15px] leading-7 text-brand-muted">
+                {capability.description}
+              </p>
+
+              <div className="mt-6 flex flex-wrap gap-2">
+                {capability.items.map((item) => (
+                  <span
+                    key={item}
+                    className="rounded-full border border-[#E6E0D8] bg-white/70 px-3 py-1 text-[10px] uppercase tracking-[0.22em] text-brand-muted"
                   >
-                    <div className="flex items-center gap-4">
-                      <span className="text-xl text-brand-muted group-hover:text-brand-gold transition-colors duration-500">
-                        {skill.icon}
-                      </span>
-                      <span className="text-sm font-medium text-brand-muted group-hover:text-brand-ink tracking-tight transition-colors">
-                        {skill.name}
-                      </span>
-                    </div>
-                    
-                    <div className="opacity-0 group-hover:opacity-100 transition-opacity duration-500">
-                      <div className="w-1 h-1 rounded-full bg-brand-gold" />
-                    </div>
-                  </motion.div>
+                    {item}
+                  </span>
                 ))}
               </div>
-            </motion.div>
+            </motion.article>
           ))}
         </div>
       </div>

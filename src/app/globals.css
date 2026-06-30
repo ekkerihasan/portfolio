@@ -1,71 +1,102 @@
 @import "tailwindcss";
 
-/* THE FIX: Force the browser's base canvas to match your brand color */
-:root, 
-html {
-  background-color: #F8F4EC !important; 
+:root {
+  --background: #F8F7F4;
+  --foreground: #111111;
+  --muted: #5E5E5E;
+  --accent: #C6A26B;
+  --accent-hover: #B38C54;
+  --border: #E6E0D8;
+  --card: rgba(255, 255, 255, 0.55);
+}
+
+html,
+body {
+  background-color: #F8F7F4 !important;
   margin: 0;
   padding: 0;
-  height: 100%;
-  /* This prevents the horizontal white sliver on the right */
-  overflow-x: hidden; 
-}
-
-/* 1. YOUR ORIGINAL THEME DEFINITIONS (Combined) */
-@theme {
-  --color-brand-cream: #FDFCFB;
-  --color-brand-ink: #1A1A1A;
-  --color-brand-gold: #C8A97E;
-  --color-brand-paper: #F5F1E9;
-  --color-brand-muted: #666666;
+  min-height: 100%;
+  height: auto;
+  overflow-x: hidden;
+  overflow-y: auto;
+  scroll-behavior: smooth;
 }
 
 @theme {
-  --color-brand-cream: #F8F4EC;
-  --color-brand-paper: #EFE7DA;
-  --color-brand-ink: #2B2B2B;
-  --color-brand-muted: #5C5C5C;
-  --color-brand-gold: #C8A97E;
-  --color-brand-bronze: #A67B5B;
-  
-  --shadow-soft: 0 2px 15px -3px rgba(0, 0, 0, 0.04), 0 4px 6px -2px rgba(0, 0, 0, 0.02);
+  --color-brand-cream: #F8F7F4;
+  --color-brand-paper: #F2ECE2;
+  --color-brand-ink: #111111;
+  --color-brand-muted: #5E5E5E;
+  --color-brand-gold: #C6A26B;
+  --color-brand-bronze: #B38C54;
 }
 
-/* 2. BASE LAYER */
 @layer base {
   body {
-    background-color: var(--color-brand-cream);
-    color: var(--color-brand-ink);
-    margin: 0;
-    padding: 0;
-    width: 100%;
-    min-height: 100vh;
-    /* This stops the "bounce" showing white at the top/bottom */
-    overscroll-behavior: none; 
     font-family: 'Inter', sans-serif;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
-    @apply antialiased;
+    text-rendering: optimizeLegibility;
+    overscroll-behavior-y: auto;
+    scroll-behavior: smooth;
+  }
+
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    font-family: var(--font-geist), sans-serif;
+    letter-spacing: -0.04em;
+  }
+
+  p,
+  li,
+  a,
+  button,
+  input,
+  textarea,
+  select {
+    font-family: var(--font-inter), sans-serif;
   }
 
   ::selection {
-    background-color: rgba(200, 169, 126, 0.3);
-    color: var(--color-brand-ink);
+    background-color: rgba(198, 162, 107, 0.28);
+    color: var(--foreground);
   }
 }
 
-/* 3. YOUR ORIGINAL COMPONENTS */
 @layer components {
   .section-padding {
-    @apply py-16 md:py-24;
+    padding-top: 5rem;
+    padding-bottom: 5rem;
+  }
+
+  @media (min-width: 768px) {
+    .section-padding {
+      padding-top: 7rem;
+      padding-bottom: 7rem;
+    }
   }
 
   .container-tight {
-    @apply max-w-[1200px] mx-auto px-6 md:px-12;
+    max-width: 1180px;
+    margin-left: auto;
+    margin-right: auto;
+    padding-left: 1.5rem;
+    padding-right: 1.5rem;
+  }
+
+  @media (min-width: 768px) {
+    .container-tight {
+      max-width: 1180px;
+      padding-left: 2rem;
+      padding-right: 2rem;
+    }
   }
 }
 
-/* 4. YOUR ORIGINAL UTILITIES */
 @layer utilities {
   .no-scrollbar::-webkit-scrollbar {
     display: none;

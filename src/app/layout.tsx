@@ -1,23 +1,21 @@
 import type { Metadata } from "next";
-import { Inter, Instrument_Serif } from "next/font/google";
+import { Geist, Inter } from "next/font/google";
 import "./globals.css";
-import Navbar from "@/components/Navbar";
+import BackgroundPattern from "@/components/BackgroundPattern";
 
 const inter = Inter({
   variable: "--font-inter",
   subsets: ["latin"],
 });
 
-const instrumentSerif = Instrument_Serif({
-  variable: "--font-serif",
+const geist = Geist({
+  variable: "--font-geist",
   subsets: ["latin"],
-  weight: ["400"],
-  style: ["normal", "italic"],
 });
 
 export const metadata: Metadata = {
-  title: "Hasan Ekkeri | Backend Architect & Security",
-  description: "Crafting scalable systems and secure digital architectures.",
+  title: "Hasan Ekkeri | Software Engineer",
+  description: "Premium software engineering portfolio focused on scalable, secure products.",
 };
 
 export default function RootLayout({
@@ -26,22 +24,14 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    /* FIXED: Added bg-[#F8F4EC] and overflow-x-hidden to the root to kill the white edges */
-    <html lang="en" className="scroll-smooth bg-[#F8F4EC] overflow-x-hidden">
+    <html lang="en" className="scroll-smooth bg-brand-cream overflow-x-hidden">
       <body
-        className={`${inter.variable} ${instrumentSerif.variable} antialiased selection:bg-brand-gold selection:text-white bg-[#F8F4EC] min-h-screen relative`}
+        className={`${inter.variable} ${geist.variable} antialiased bg-brand-cream text-brand-ink min-h-screen relative overflow-x-hidden`}
       >
-        {/* Modern Premium Background Layer - ALL ORIGINAL LOGIC PRESERVED */}
-        <div className="fixed inset-0 -z-50 bg-[#F8F4EC]">
-          {/* Subtle Grain Overlay */}
-          <div className="absolute inset-0 opacity-[0.03] pointer-events-none bg-[url('https://grainy-gradients.vercel.app/noise.svg')]" />
-          {/* Soft ambient glow */}
-          <div className="absolute top-[-10%] left-[-10%] w-[40%] h-[40%] rounded-full bg-brand-gold/5 blur-[120px]" />
-        </div>
+        <BackgroundPattern variant="page" className="fixed inset-0 -z-50" />
+        <div className="fixed inset-0 -z-40 pointer-events-none bg-[radial-gradient(circle_at_top,rgba(255,255,255,0.18),transparent_48%)]" />
 
-        <Navbar />
-
-        <main className="relative z-10 pt-20 md:pt-32">
+        <main className="relative z-10">
           {children}
         </main>
       </body>

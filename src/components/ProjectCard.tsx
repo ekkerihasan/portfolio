@@ -1,7 +1,7 @@
 'use client';
 
 import { motion } from 'framer-motion';
-import { ArrowUpRight } from 'lucide-react';
+import { ArrowUpRight, Github } from 'lucide-react';
 import BackgroundPattern from '@/components/BackgroundPattern';
 
 const projects = [
@@ -12,6 +12,7 @@ const projects = [
     description:
       'A platform for organizing patient records, scheduling, and billing flows with a cleaner operational experience.',
     stack: ['Node.js', 'Express', 'PostgreSQL'],
+    github: 'https://github.com/ekkerihasan',
   },
   {
     year: '2026',
@@ -20,6 +21,7 @@ const projects = [
     description:
       'A credential manager built around encryption, access safety, and a disciplined approach to sensitive data.',
     stack: ['Python', 'Django', 'AES-256'],
+    github: 'https://github.com/ekkerihasan',
   },
   {
     year: '2025',
@@ -28,6 +30,7 @@ const projects = [
     description:
       'A role-aware quiz system with authentication, leaderboard logic, and a straightforward interface for usage at scale.',
     stack: ['TypeScript', 'JWT', 'MySQL'],
+    github: 'https://github.com/ekkerihasan',
   },
   {
     year: '2025',
@@ -36,6 +39,7 @@ const projects = [
     description:
       'An experiment in simulation, learning loops, and iterative tuning, built as a lightweight way to study model behavior.',
     stack: ['Python', 'NumPy', 'Pygame'],
+    github: 'https://github.com/ekkerihasan',
   },
 ];
 
@@ -87,9 +91,20 @@ export default function ProjectPortal() {
                   </p>
                 </div>
 
-                <div className="flex items-center gap-2 text-[#888888] transition-transform duration-200 group-hover:translate-x-1">
-                  <span className="text-[10px] uppercase tracking-[0.28em]">Open</span>
-                  <ArrowUpRight size={16} />
+                <div className="flex flex-wrap items-center gap-3 text-[#888888] transition-transform duration-200 group-hover:translate-x-1">
+                  <a
+                    href={project.github}
+                    target="_blank"
+                    rel="noreferrer"
+                    className="inline-flex items-center gap-2 rounded-full border border-[#E6E0D8] bg-white/70 px-3 py-2 text-[10px] uppercase tracking-[0.24em] text-brand-ink transition-colors duration-200 hover:bg-white"
+                  >
+                    <Github size={14} />
+                    GitHub
+                  </a>
+                  <span className="flex items-center gap-2 text-[10px] uppercase tracking-[0.28em]">
+                    <span>Open</span>
+                    <ArrowUpRight size={16} />
+                  </span>
                 </div>
               </div>
 

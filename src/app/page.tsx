@@ -28,7 +28,7 @@ export default function Home() {
                   Hasan Ekkeri
                 </p>
                 <p className="mt-3 max-w-lg text-sm leading-6 text-brand-muted">
-                  Software engineer portfolio focused on calm interfaces, reliable systems, and high-quality execution.
+                  I build web apps with React, Next.js, Node.js, Python, and Django. I care more about clear structure than showy effects.
                 </p>
               </div>
 

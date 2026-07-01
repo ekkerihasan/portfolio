@@ -15,7 +15,7 @@ const geist = Geist({
 
 export const metadata: Metadata = {
   title: "Hasan Ekkeri | Software Engineer",
-  description: "Premium software engineering portfolio focused on scalable, secure products.",
+  description: "Hasan Ekkeri's portfolio site focused on React, Next.js, Node.js, Python, and Django work.",
 };
 
 export default function RootLayout({

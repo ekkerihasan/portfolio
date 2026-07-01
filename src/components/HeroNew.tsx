@@ -115,13 +115,13 @@ export default function Hero() {
               className="mt-6 max-w-152 md:mt-8"
             >
               <motion.p variants={textItem} className="max-w-152 text-[16px] leading-7 text-brand-muted md:text-[20px] md:leading-9">
-                I build secure, scalable, and user-centric <span className="text-brand-gold">digital products</span>
+                I build web products end to end.
               </motion.p>
               <motion.p variants={textItem} className="mt-3 max-w-136 text-[14px] leading-7 text-brand-muted md:mt-4 md:text-[16px]">
-                My work spans frontend systems, backend architecture, and thoughtful product execution.
+                Most of my work sits in React, Next.js, Node.js, Python, and Django.
               </motion.p>
               <motion.p variants={textItem} className="mt-3 max-w-136 text-[14px] leading-7 text-brand-muted md:mt-4 md:text-[16px]">
-                I focus on software that feels calm to use, easy to trust, and precise in detail.
+                I care about clear interfaces, predictable behavior, and code that still makes sense later.
               </motion.p>
             </motion.div>
 
@@ -169,7 +169,7 @@ export default function Hero() {
               <div className="absolute inset-[-12%] hidden rounded-full border border-black/4.5 md:block" />
               <div className="absolute right-3 top-3 z-10 hidden rounded-full border border-black/6 bg-white/70 px-4 py-2 text-[10px] font-medium uppercase tracking-[0.24em] text-brand-ink backdrop-blur-md md:block">
                 <span className="mr-2 text-brand-gold">●</span>
-                Available for Internship
+                Open for internships
               </div>
 
               <div className="relative overflow-hidden rounded-[1.75rem] border border-black/4 bg-white/35 shadow-[0_18px_50px_rgba(17,17,17,0.04)] md:rounded-4xl md:shadow-none">
@@ -186,12 +186,12 @@ export default function Hero() {
 
               <div className="absolute -left-2 bottom-4 max-w-44 rounded-3xl border border-black/5 bg-white/80 p-3 shadow-[0_12px_30px_rgba(17,17,17,0.06)] backdrop-blur-md sm:-left-4 sm:bottom-6 sm:max-w-57.5 sm:p-4 md:-left-8 md:bottom-8">
                 <p className="text-[13px] leading-5 text-brand-ink sm:text-sm sm:leading-6">
-                  “I build reliable software that solves real problems.”
+                  I usually work from the interface down to the API.
                 </p>
               </div>
 
               <div className="absolute -bottom-4 right-3 flex items-center gap-2 rounded-full border border-black/5 bg-white/75 px-3 py-2 text-[9px] uppercase tracking-[0.24em] text-brand-muted backdrop-blur-md sm:-bottom-5 sm:right-5 sm:px-4 sm:py-2 sm:text-[10px] sm:tracking-[0.28em]">
-                Clean execution
+                Open to internship work
                 <ArrowRight size={14} className="text-brand-gold" />
               </div>
             </div>

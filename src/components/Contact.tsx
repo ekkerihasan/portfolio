@@ -38,10 +38,10 @@ export default function Contact() {
             </span>
           </div>
           <h2 className="text-[clamp(2.5rem,5vw,4.25rem)] font-semibold leading-[0.98] tracking-[-0.05em] text-brand-ink">
-            Open to internships and focused product work.
+            If you need someone who can own a feature end to end, email is the fastest way to reach me.
           </h2>
           <p className="mt-5 max-w-136 text-[16px] leading-7 text-brand-muted">
-            If you are hiring for a team that values craft, reliability, and clear execution, I am easy to reach.
+            I read email first. If the role is a fit, send a note and I&apos;ll reply directly.
           </p>
         </motion.div>
 
@@ -59,10 +59,10 @@ export default function Contact() {
                   Availability
                 </p>
                 <p className="mt-3 text-2xl font-semibold tracking-[-0.05em]">
-                  Available for software engineering internships.
+                  Open to internship roles and small product work.
                 </p>
                 <p className="mt-4 max-w-md text-[15px] leading-7 text-white/70">
-                  I prefer direct communication and clean handoffs. If the role is product-facing or full-stack, send a note and I&apos;ll respond quickly.
+                  I work best on React, Next.js, and backend tasks that need to stay simple for the next person who touches them.
                 </p>
               </div>
 
@@ -70,7 +70,7 @@ export default function Contact() {
                 onClick={copyEmail}
                 className="inline-flex h-12 items-center justify-center gap-2 rounded-full bg-white px-6 text-[10px] font-medium uppercase tracking-[0.28em] text-brand-ink transition-colors duration-200 hover:bg-brand-paper"
               >
-                {copied ? 'Copied' : 'Copy Email'}
+                {copied ? 'Copied' : 'Copy email'}
                 <Copy size={14} />
               </button>
             </div>

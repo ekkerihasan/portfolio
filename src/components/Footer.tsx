@@ -23,7 +23,7 @@ export default function Footer() {
                 Hasan Ekkeri
               </p>
               <p className="mt-3 max-w-md text-sm leading-6 text-brand-muted">
-                Software engineer portfolio focused on calm interfaces, reliable systems, and high-quality execution.
+                I build web apps with React, Next.js, Node.js, Python, and Django. I prefer work that stays clear after the first read.
               </p>
             </div>
 

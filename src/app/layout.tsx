@@ -31,7 +31,7 @@ export default function RootLayout({
         <BackgroundPattern variant="page" className="fixed inset-0 -z-50" />
         <div className="fixed inset-0 -z-40 pointer-events-none bg-[radial-gradient(circle_at_top,rgba(255,255,255,0.18),transparent_48%)]" />
 
-        <main className="relative z-10">
+        <main className="relative z-10 w-full">
           {children}
         </main>
       </body>

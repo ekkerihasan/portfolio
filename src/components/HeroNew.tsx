@@ -1,9 +1,10 @@
 'use client';
 
 import Image from 'next/image';
-import { motion, type Variants } from 'framer-motion';
-import { ArrowRight, Github, Linkedin, Mail, Download } from 'lucide-react';
+import { useCallback, useState } from 'react';
+import { ArrowRight, Github, Linkedin, Mail, FileText } from 'lucide-react';
 import BackgroundPattern from '@/components/BackgroundPattern';
+import ResumePreview from '@/components/ResumePreview';
 
 const socialLinks = [
   { label: 'GitHub', href: 'https://github.com/ekkerihasan', icon: Github },
@@ -11,119 +12,44 @@ const socialLinks = [
   { label: 'Email', href: 'mailto:hassanekkeri2@gmail.com', icon: Mail },
 ];
 
-const textContainer: Variants = {
-  hidden: { opacity: 0 },
-  visible: {
-    opacity: 1,
-    transition: {
-      staggerChildren: 0.09,
-      delayChildren: 0.05,
-    },
-  },
-};
-
-const textItem: Variants = {
-  hidden: { opacity: 0, y: 14 },
-  visible: {
-    opacity: 1,
-    y: 0,
-    transition: {
-      duration: 0.55,
-      ease: 'easeOut',
-    },
-  },
-};
-
-const scribbleLetter: Variants = {
-  hidden: {
-    opacity: 0,
-    y: 16,
-    x: -4,
-    rotate: -6,
-  },
-  visible: {
-    opacity: 1,
-    y: 0,
-    x: 0,
-    rotate: 0,
-    transition: {
-      duration: 0.48,
-      ease: 'easeOut',
-    },
-  },
-};
-
-const renderScribbleLine = (text: string) =>
-  Array.from(text).map((character, index) => (
-    <motion.span
-      key={`${character}-${index}`}
-      variants={scribbleLetter}
-      className="inline-block"
-      style={{ transformOrigin: 'left bottom' }}
-    >
-      {character === ' ' ? '\u00A0' : character}
-    </motion.span>
-  ));
-
 export default function Hero() {
+  const [resumeOpen, setResumeOpen] = useState(false);
+  const closeResume = useCallback(() => setResumeOpen(false), []);
+
   return (
     <section id="about" className="section-padding relative isolate overflow-hidden pt-28 md:pt-36">
       <BackgroundPattern variant="hero" />
       <div className="container-tight">
         <div className="relative z-10 grid items-center gap-12 lg:grid-cols-[1.45fr_1fr] lg:gap-16">
-          <motion.div
-            initial={{ opacity: 0, y: 16 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, ease: 'easeOut' }}
-            className="max-w-176"
-          >
-            <motion.div
-              variants={textContainer}
-              initial="hidden"
-              animate="visible"
-              className="mb-6 flex items-center justify-between gap-4 md:mb-8"
-            >
-              <motion.div variants={textItem} className="flex items-center gap-4">
+          <div className="max-w-176">
+            <div className="mb-6 flex items-center justify-between gap-4 md:mb-8">
+              <div className="flex items-center gap-4">
                 <span className="h-px w-10 bg-brand-gold/60" />
                 <span className="text-[10px] font-medium uppercase tracking-[0.34em] text-brand-gold">
                   Hello, I&apos;m
                 </span>
-              </motion.div>
-              <motion.span variants={textItem} className="text-[10px] uppercase tracking-[0.34em] text-brand-muted">
+              </div>
+              <span className="text-[10px] uppercase tracking-[0.34em] text-brand-muted">
                 00 / MMXXVI
-              </motion.span>
-            </motion.div>
+              </span>
+            </div>
 
-            <motion.h1
-              variants={textContainer}
-              initial="hidden"
-              animate="visible"
-              className="max-w-[10ch] text-[clamp(3.4rem,14vw,6.75rem)] font-semibold leading-[0.92] tracking-[-0.06em] text-brand-ink md:max-w-none md:text-[clamp(4rem,9vw,6.75rem)]"
-            >
-              <motion.span variants={textItem} className="block overflow-hidden">
-                {renderScribbleLine('Hasan')}
-              </motion.span>
-              <motion.span variants={textItem} className="block overflow-hidden">
-                {renderScribbleLine('Ekkeri')}
-              </motion.span>
-            </motion.h1>
+            <h1 className="max-w-[10ch] text-[clamp(3.4rem,14vw,6.75rem)] font-semibold leading-[0.92] tracking-[-0.06em] text-brand-ink md:max-w-none md:text-[clamp(4rem,9vw,6.75rem)]">
+              <span className="block">Hasan</span>
+              <span className="block">Ekkeri</span>
+            </h1>
 
-            <motion.div
-              variants={textContainer}
-              initial="hidden"
-              animate="visible"
-              className="mt-6 max-w-152 md:mt-8"
-            >
-              <motion.p variants={textItem} className="max-w-152 text-[16px] leading-7 text-brand-muted md:text-[20px] md:leading-9">
+            <div className="mt-6 max-w-152 md:mt-8">
+              <p className="max-w-152 text-[16px] leading-7 text-brand-muted md:text-[20px] md:leading-9">
                 I build web products end to end.
-              </motion.p>
-              <motion.p variants={textItem} className="mt-3 max-w-136 text-[14px] leading-7 text-brand-muted md:mt-4 md:text-[16px]">
+              </p>
+              <p className="mt-3 max-w-136 text-[14px] leading-7 text-brand-muted md:mt-4 md:text-[16px]">
                 Most of my work sits in React, Next.js, Node.js, Python, and Django.
-              </motion.p>
-              <motion.p variants={textItem} className="mt-3 max-w-136 text-[14px] leading-7 text-brand-muted md:mt-4 md:text-[16px]">
+              </p>
+              <p className="mt-3 max-w-136 text-[14px] leading-7 text-brand-muted md:mt-4 md:text-[16px]">
                 I care about clear interfaces, predictable behavior, and code that still makes sense later.
-              </motion.p>
-            </motion.div>
+              </p>
+            </div>
 
             <div className="mt-8 flex flex-col gap-3 sm:mt-10 sm:flex-row sm:items-center sm:gap-4">
               <a
@@ -132,14 +58,14 @@ export default function Hero() {
               >
                 View Projects
               </a>
-              <a
-                href="/fullstack-developer-resume.pdf"
-                download
-                className="inline-flex h-11 w-full items-center justify-center gap-2 rounded-full border border-black/5 bg-white/45 px-6 text-[10px] font-medium uppercase tracking-[0.28em] text-brand-ink transition-colors duration-200 hover:bg-white sm:w-auto sm:h-12"
+              <button
+                type="button"
+                onClick={() => setResumeOpen(true)}
+                className="inline-flex h-11 w-full items-center justify-center gap-2 rounded-full border border-black/5 bg-white/45 px-6 text-[10px] font-medium uppercase tracking-[0.28em] text-brand-ink transition-colors duration-200 hover:bg-white sm:w-auto sm:h-12 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-gold"
               >
-                Download Resume
-                <Download size={14} />
-              </a>
+                View Resume
+                <FileText size={14} />
+              </button>
             </div>
 
             <div className="mt-8 flex flex-wrap items-center gap-x-6 gap-y-3 text-[10px] uppercase tracking-[0.28em] text-brand-muted md:mt-10 md:gap-x-8">
@@ -156,14 +82,9 @@ export default function Hero() {
                 </a>
               ))}
             </div>
-          </motion.div>
+            </div>
 
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.7, ease: 'easeOut', delay: 0.1 }}
-            className="relative mx-auto w-full max-w-70 lg:max-w-none"
-          >
+          <div className="relative mx-auto w-full max-w-70 lg:max-w-none">
             <div className="relative mx-auto w-full max-w-80 lg:max-w-110">
               <div className="absolute inset-[-6%] hidden rounded-4xl border border-black/5 md:block" />
               <div className="absolute inset-[-12%] hidden rounded-full border border-black/4.5 md:block" />
@@ -195,9 +116,11 @@ export default function Hero() {
                 <ArrowRight size={14} className="text-brand-gold" />
               </div>
             </div>
-          </motion.div>
+          </div>
         </div>
       </div>
+
+      <ResumePreview open={resumeOpen} onClose={closeResume} />
     </section>
   );
 }

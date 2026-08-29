@@ -1,7 +1,6 @@
 'use client';
 
-import { motion } from 'framer-motion';
-import { ArrowUpRight } from 'lucide-react';
+import { ArrowUp } from 'lucide-react';
 
 const links = [
   { label: 'About', href: '#about' },
@@ -37,19 +36,18 @@ export default function Footer() {
                   {link.label}
                 </a>
               ))}
-              <motion.a
+              <a
                 href="#about"
-                whileHover={{ y: -2 }}
                 className="inline-flex h-11 w-11 items-center justify-center rounded-full border border-[#E6E0D8] bg-white/60 text-brand-ink transition-colors duration-200 hover:bg-white"
                 aria-label="Back to top"
               >
-                <ArrowUpRight size={16} />
-              </motion.a>
+                <ArrowUp size={16} />
+              </a>
             </div>
           </div>
           <div className="mt-8 flex flex-col gap-3 border-t border-black/5 pt-6 text-[10px] uppercase tracking-[0.28em] text-brand-muted md:flex-row md:items-center md:justify-between">
             <span>© {year} Hasan Ekkeri</span>
-            <span>Built with Next.js, Tailwind CSS, and Framer Motion</span>
+            <span>Built with Next.js and Tailwind CSS</span>
           </div>
         </div>
       </div>

@@ -1,19 +1,58 @@
 'use client';
 
-import { motion } from 'framer-motion';
-type SkillItem = {
+import { useState } from 'react';
+import { cn } from '@/lib/utils';
+
+type Skill = {
   name: string;
   note: string;
 };
 
-type SkillGroup = {
-  label: string;
-  items: SkillItem[];
+type Band = {
+  index: string;
+  name: string;
+  caption: string;
+  items: Skill[];
 };
 
-const skillGroups: SkillGroup[] = [
+const layers: Band[] = [
   {
-    label: 'Languages',
+    index: '01',
+    name: 'Interface',
+    caption: 'The part people actually touch.',
+    items: [
+      { name: 'React', note: 'Most of my interface work starts here.' },
+      { name: 'Next.js', note: 'Routing, rendering, and portfolio pages.' },
+      { name: 'Tailwind CSS', note: 'Keeps styling consistent without noise.' },
+    ],
+  },
+  {
+    index: '02',
+    name: 'Logic',
+    caption: 'Where the rules get decided.',
+    items: [
+      { name: 'Node.js', note: 'APIs, server logic, and lightweight tooling.' },
+      { name: 'Express', note: 'Straightforward request handling.' },
+      { name: 'Django', note: 'Useful when the project needs structure.' },
+    ],
+  },
+  {
+    index: '03',
+    name: 'Data',
+    caption: 'What has to outlive the session.',
+    items: [
+      { name: 'PostgreSQL', note: 'My usual choice for relational data.' },
+      { name: 'MySQL', note: 'Used in quiz and auth-style projects.' },
+      { name: 'Schema design', note: 'I like to think through the model first.' },
+    ],
+  },
+];
+
+const rails: Band[] = [
+  {
+    index: '—',
+    name: 'Languages',
+    caption: 'Run through every layer above.',
     items: [
       { name: 'JavaScript', note: 'Client logic, utilities, and interaction handling.' },
       { name: 'TypeScript', note: 'Used here and in most structured React work.' },
@@ -22,31 +61,9 @@ const skillGroups: SkillGroup[] = [
     ],
   },
   {
-    label: 'Frontend',
-    items: [
-      { name: 'React', note: 'Most of my interface work starts here.' },
-      { name: 'Next.js', note: 'Routing, rendering, and portfolio pages.' },
-      { name: 'Tailwind CSS', note: 'Keeps styling consistent without noise.' },
-    ],
-  },
-  {
-    label: 'Backend',
-    items: [
-      { name: 'Node.js', note: 'APIs, server logic, and lightweight tooling.' },
-      { name: 'Express', note: 'Straightforward request handling.' },
-      { name: 'Django', note: 'Useful when the project needs structure.' },
-    ],
-  },
-  {
-    label: 'Database',
-    items: [
-      { name: 'PostgreSQL', note: 'My usual choice for relational data.' },
-      { name: 'MySQL', note: 'Used in quiz and auth-style projects.' },
-      { name: 'Schema design', note: 'I like to think through the model first.' },
-    ],
-  },
-  {
-    label: 'Tools',
+    index: '—',
+    name: 'Tools',
+    caption: 'Wrapped around the whole thing.',
     items: [
       { name: 'Git', note: 'Used on every project I keep in shape.' },
       { name: 'VS Code', note: 'Where most of the work happens.' },
@@ -56,76 +73,145 @@ const skillGroups: SkillGroup[] = [
   },
 ];
 
-export default function Skills() {
+type BandRowProps = {
+  band: Band;
+  activeKey: string;
+  onActivate: (key: string) => void;
+};
+
+function BandRow({ band, activeKey, onActivate }: BandRowProps) {
+  const activeItem = band.items.find(
+    (item) => `${band.name}-${item.name}` === activeKey,
+  );
+
   return (
-    <section id="skills" className="section-padding relative isolate overflow-hidden bg-white">
-      <div className="container-tight">
-        <motion.div
-          initial={{ opacity: 0, y: 10 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.18, ease: 'easeOut' }}
-          viewport={{ once: true, amount: 0.35 }}
-          className="max-w-2xl"
+    <div className="grid gap-5 py-8 md:grid-cols-[minmax(0,14rem)_1fr] md:gap-10 md:py-10">
+      <div className="md:pt-1">
+        <div className="flex items-baseline gap-3">
+          <span className="text-[10px] uppercase tracking-[0.34em] text-brand-gold">
+            {band.index}
+          </span>
+          <h3 className="text-[1.6rem] font-semibold tracking-[-0.045em] text-white md:text-[2rem]">
+            {band.name}
+          </h3>
+        </div>
+        <p className="mt-2 text-[13px] leading-6 text-white/55">{band.caption}</p>
+      </div>
+
+      <div>
+        <div className="flex flex-wrap gap-2">
+          {band.items.map((item) => {
+            const key = `${band.name}-${item.name}`;
+            const isActive = key === activeKey;
+
+            return (
+              <button
+                key={item.name}
+                type="button"
+                onClick={() => onActivate(key)}
+                onMouseEnter={() => onActivate(key)}
+                onFocus={() => onActivate(key)}
+                aria-pressed={isActive}
+                className={cn(
+                  'rounded-full border px-4 py-2 text-[13px] tracking-[-0.01em] transition-colors duration-200',
+                  'focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-gold',
+                  isActive
+                    ? 'border-white bg-white text-brand-ink'
+                    : 'border-white/12 bg-white/5 text-white/70 hover:border-white/35 hover:text-white',
+                )}
+              >
+                {item.name}
+              </button>
+            );
+          })}
+        </div>
+
+        <div
+          className={cn(
+            'grid transition-all duration-300 ease-out',
+            activeItem ? 'mt-4 grid-rows-[1fr] opacity-100' : 'grid-rows-[0fr] opacity-0',
+          )}
         >
+          <div className="overflow-hidden">
+            <p className="border-l border-brand-gold/45 pl-4 text-[14px] leading-6 text-white/70">
+              {activeItem?.note}
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+export default function Skills() {
+  const [activeKey, setActiveKey] = useState('Interface-React');
+
+  return (
+    <section
+      id="skills"
+      className="section-padding relative isolate overflow-hidden bg-brand-ink text-white"
+    >
+      <div
+        aria-hidden="true"
+        className="pointer-events-none absolute inset-0 opacity-[0.055]"
+        style={{
+          backgroundImage:
+            'linear-gradient(to right, #fff 1px, transparent 1px), linear-gradient(to bottom, #fff 1px, transparent 1px)',
+          backgroundSize: '76px 76px',
+        }}
+      />
+      <div
+        aria-hidden="true"
+        className="pointer-events-none absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-brand-gold/45 to-transparent"
+      />
+      <div
+        aria-hidden="true"
+        className="pointer-events-none absolute -left-40 top-1/4 h-120 w-120 rounded-full bg-brand-gold/6 blur-3xl"
+      />
+
+      <div className="container-tight relative z-10">
+        <div className="max-w-2xl">
           <div className="mb-5 flex items-center gap-4">
-            <span className="h-px w-10 bg-black/10" />
-            <span className="text-[10px] font-medium uppercase tracking-[0.36em] text-black/50">
+            <span className="h-px w-10 bg-brand-gold/60" />
+            <span className="text-[10px] font-medium uppercase tracking-[0.34em] text-brand-gold">
               Toolbox
             </span>
           </div>
-          <h2 className="text-[clamp(2.5rem,5vw,4.5rem)] font-semibold leading-[0.95] tracking-[-0.06em] text-black">
-            Stack I reach for.
+          <h2 className="text-[clamp(2.5rem,5vw,4.5rem)] font-semibold leading-[0.95] tracking-[-0.06em] text-white">
+            The stack, top to bottom.
           </h2>
-          <p className="mt-5 max-w-xl text-[16px] leading-7 text-black/62 sm:text-[17px]">
-            I keep the stack small and practical. These are the tools I reach for when I need to move from layout to backend to data without switching styles or chasing trends.
+          <p className="mt-5 max-w-xl text-[16px] leading-7 text-white/60 sm:text-[17px]">
+            I keep the stack small and practical. Read it as one system: what the
+            user touches, what decides the rules, and what has to still be true
+            tomorrow.
           </p>
-        </motion.div>
+        </div>
 
-        <motion.div
-          initial={{ opacity: 0, y: 10 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.18, ease: 'easeOut', delay: 0.03 }}
-          viewport={{ once: true, amount: 0.2 }}
-          className="mt-12 border-y border-black/10"
-        >
-          <div className="grid divide-y divide-black/10 lg:grid-cols-5 lg:divide-x lg:divide-y-0">
-            {skillGroups.map((group) => (
-              <section
-                key={group.label}
-                className="px-0 py-6 first:pt-5 last:pb-5 sm:py-7 lg:px-6 lg:py-7"
-              >
-                <p className="px-5 text-[10px] font-medium uppercase tracking-[0.36em] text-black/45 lg:px-0">
-                  {group.label}
-                </p>
-                <ul className="mt-5">
-                  {group.items.map((item) => (
-                    <li key={item.name} className="group border-t border-black/6 first:border-t-0 first:pt-0 last:pb-0">
-                      <motion.button
-                        type="button"
-                        whileHover={{ backgroundColor: '#111111', color: '#FFFFFF' }}
-                        whileTap={{ scale: 0.99, backgroundColor: '#111111', color: '#FFFFFF' }}
-                        transition={{ duration: 0.16, ease: 'easeOut' }}
-                        className="w-full text-left mx-3 rounded-xl px-3 py-3 transition-colors duration-150 lg:mx-0 lg:px-0"
-                      >
-                        <div className="flex items-start justify-between gap-4">
-                          <span className="text-[14px] font-medium tracking-[-0.03em] text-black transition-colors duration-150 group-hover:text-white sm:text-[15px]">
-                            {item.name}
-                          </span>
-                          <span className="mt-1 text-[10px] uppercase tracking-[0.22em] text-black/35 transition-colors duration-150 group-hover:text-white/45">
-                            {group.label}
-                          </span>
-                        </div>
-                        <p className="mt-2 max-w-sm overflow-hidden text-[13px] leading-6 text-black/52 opacity-0 max-h-0 transition-all duration-150 ease-out group-hover:max-h-20 group-hover:opacity-100 group-hover:text-white/72 group-focus-visible:max-h-20 group-focus-visible:opacity-100 group-focus-visible:text-white/72 group-active:max-h-20 group-active:opacity-100 group-active:text-white/72">
-                          {item.note}
-                        </p>
-                      </motion.button>
-                    </li>
-                  ))}
-                </ul>
-              </section>
-            ))}
-          </div>
-        </motion.div>
+        <div className="mt-14 divide-y divide-white/10 border-y border-white/10">
+          {layers.map((band) => (
+            <BandRow
+              key={band.name}
+              band={band}
+              activeKey={activeKey}
+              onActivate={setActiveKey}
+            />
+          ))}
+        </div>
+
+        <p className="mt-10 text-[10px] uppercase tracking-[0.34em] text-white/40">
+          Cuts across every layer
+        </p>
+
+        <div className="mt-4 divide-y divide-white/10 border-y border-white/10">
+          {rails.map((band) => (
+            <BandRow
+              key={band.name}
+              band={band}
+              activeKey={activeKey}
+              onActivate={setActiveKey}
+            />
+          ))}
+        </div>
       </div>
     </section>
   );

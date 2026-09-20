@@ -31,7 +31,7 @@ type RawResponse = {
 
 export async function getContributions(): Promise<ContributionData | null> {
   try {
-    const res = await fetch(ENDPOINT, { next: { revalidate: 3600 } });
+    const res = await fetch(ENDPOINT, { next: { revalidate: 60 } });
     if (!res.ok) return null;
 
     const raw: RawResponse = await res.json();

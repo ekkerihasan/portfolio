@@ -1,8 +1,8 @@
-"use client";
+'use client';
 
-import { useEffect, useState } from "react";
-import { ArrowUpRight, Menu, X } from "lucide-react";
-import { cn } from "@/lib/utils";
+import { useEffect, useState } from 'react';
+import { ArrowUpRight, Menu, X } from 'lucide-react';
+import { cn } from '@/lib/utils';
 
 interface NavItem {
   label: string;
@@ -10,14 +10,15 @@ interface NavItem {
 }
 
 const navItems: NavItem[] = [
-  { label: "About", href: "about" },
-  { label: "Skills", href: "skills" },
-  { label: "Projects", href: "projects" },
-  { label: "Contact", href: "contact" },
+  { label: 'About', href: 'about' },
+  { label: 'Activity', href: 'github' },
+  { label: 'Skills', href: 'skills' },
+  { label: 'Projects', href: 'projects' },
+  { label: 'Contact', href: 'contact' },
 ];
 
 export default function Navbar() {
-  const [activeSection, setActiveSection] = useState("about");
+  const [activeSection, setActiveSection] = useState('about');
   const [isOpen, setIsOpen] = useState(false);
 
   useEffect(() => {
@@ -31,7 +32,7 @@ export default function Navbar() {
           setActiveSection(visible.target.id);
         }
       },
-      { rootMargin: "-40% 0px -45% 0px", threshold: [0.2, 0.4, 0.6] },
+      { rootMargin: '-40% 0px -45% 0px', threshold: [0.2, 0.4, 0.6] },
     );
 
     navItems.forEach((item) => {
@@ -49,23 +50,27 @@ export default function Navbar() {
       <nav className="pointer-events-auto rounded-3xl border border-black/5 bg-white/75 backdrop-blur-[20px] shadow-[0_16px_40px_rgba(17,17,17,0.06)]">
         <div className="flex h-18 items-center justify-between gap-4 px-4 md:px-6">
           <a href="#about" className="flex items-center gap-3">
-            <div className="flex h-10 w-10 items-center justify-center rounded-2xl bg-brand-ink text-sm font-semibold text-white">
+            <div className="flex h-10 w-10 items-center justify-center rounded-2xl bg-basalt text-small font-semibold text-white">
               HE
             </div>
             <div className="hidden sm:flex flex-col leading-none">
-              <span className="text-[10px] uppercase tracking-[0.28em] text-brand-ink">Hasan Ekkeri</span>
-              <span className="text-[9px] uppercase tracking-[0.28em] text-brand-muted">Software Engineer</span>
+              <span className="text-meta uppercase tracking-[0.2em] text-basalt">
+                Hasan Ekkeri
+              </span>
+              <span className="text-micro uppercase tracking-[0.2em] text-stone">
+                Software Engineer
+              </span>
             </div>
           </a>
 
-          <div className="hidden md:flex items-center gap-8 text-[10px] uppercase tracking-[0.28em] text-brand-muted">
+          <div className="hidden md:flex items-center gap-8 text-small text-stone">
             {navItems.map((item) => (
               <a
                 key={item.href}
                 href={`#${item.href}`}
                 className={cn(
-                  "transition-colors duration-200 hover:text-brand-ink",
-                  activeSection === item.href && "text-brand-ink",
+                  'transition-colors duration-200 hover:text-basalt',
+                  activeSection === item.href && 'text-basalt',
                 )}
               >
                 {item.label}
@@ -76,14 +81,14 @@ export default function Navbar() {
           <div className="flex items-center gap-2">
             <a
               href="#contact"
-              className="hidden sm:inline-flex h-11 items-center rounded-full bg-brand-ink px-5 text-[10px] font-medium uppercase tracking-[0.28em] text-white transition-colors duration-200 hover:bg-[#2B2B2B]"
+              className="hidden sm:inline-flex h-11 items-center rounded-full bg-basalt px-5 text-small text-white transition-colors duration-200 hover:bg-[var(--color-basalt-soft)]"
             >
               Let&apos;s Talk
             </a>
             <button
               onClick={() => setIsOpen((prev) => !prev)}
-              className="inline-flex h-11 w-11 items-center justify-center rounded-full border border-black/5 bg-white text-brand-ink transition-colors duration-200 hover:bg-black/5 md:hidden"
-              aria-label={isOpen ? "Close menu" : "Open menu"}
+              className="inline-flex h-11 w-11 items-center justify-center rounded-full border border-black/5 bg-white text-basalt transition-colors duration-200 hover:bg-black/5 md:hidden"
+              aria-label={isOpen ? 'Close menu' : 'Open menu'}
             >
               {isOpen ? <X size={18} /> : <Menu size={18} />}
             </button>
@@ -99,18 +104,18 @@ export default function Navbar() {
                   href={`#${item.href}`}
                   onClick={() => setIsOpen(false)}
                   className={cn(
-                    "flex items-center justify-between rounded-2xl px-4 py-3 text-sm text-brand-ink transition-colors duration-200 hover:bg-black/3",
-                    activeSection === item.href && "bg-black/3",
+                    'flex items-center justify-between rounded-2xl px-4 py-3 text-small text-basalt transition-colors duration-200 hover:bg-black/3',
+                    activeSection === item.href && 'bg-black/3',
                   )}
                 >
                   <span>{item.label}</span>
-                  <ArrowUpRight size={15} className="text-brand-muted" />
+                  <ArrowUpRight size={15} className="text-stone" />
                 </a>
               ))}
               <a
                 href="#contact"
                 onClick={() => setIsOpen(false)}
-                className="mt-1 inline-flex h-11 items-center justify-center rounded-full bg-brand-ink px-5 text-[10px] font-medium uppercase tracking-[0.28em] text-white"
+                className="mt-1 inline-flex h-11 items-center justify-center rounded-full bg-basalt px-5 text-small text-white"
               >
                 Let&apos;s Talk
               </a>

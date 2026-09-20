@@ -3,6 +3,7 @@ import About from '@/components/HeroNew';
 import Skills from '@/components/Skills';
 import Contact from '@/components/Contact';
 import Project from '@/components/ProjectCard';
+import GitHubActivity from '@/components/GitHubActivity';
 import Footer from '@/components/Footer';
 
 export default function Home() {
@@ -10,6 +11,7 @@ export default function Home() {
     <>
       <Navbar />
       <About />
+      <GitHubActivity />
       <Skills />
       <Project />
       <Contact />

@@ -1,9 +1,8 @@
 'use client';
-
 import { ArrowUp } from 'lucide-react';
-
 const links = [
   { label: 'About', href: '#about' },
+  { label: 'Activity', href: '#github' },
   { label: 'Skills', href: '#skills' },
   { label: 'Projects', href: '#projects' },
   { label: 'Contact', href: '#contact' },
@@ -18,11 +17,12 @@ export default function Footer() {
         <div className="border-t border-black/6 pt-8">
           <div className="flex flex-col gap-8 md:flex-row md:items-center md:justify-between">
             <div>
-              <p className="text-[10px] uppercase tracking-[0.34em] text-brand-gold">
+              <p className="text-meta uppercase tracking-[0.2em] text-rust">
                 Hasan Ekkeri
               </p>
-              <p className="mt-3 max-w-md text-sm leading-6 text-brand-muted">
-                I build web apps with React, Next.js, Node.js, Python, and Django. I prefer work that stays clear after the first read.
+              <p className="mt-3 max-w-md text-small leading-6 text-stone">
+                I build web apps with React, Next.js, Node.js, Python, and
+                Django. I prefer work that stays clear after the first read.
               </p>
             </div>
 
@@ -31,21 +31,21 @@ export default function Footer() {
                 <a
                   key={link.label}
                   href={link.href}
-                  className="rounded-full border border-[#E6E0D8] bg-white/45 px-4 py-2 text-[10px] uppercase tracking-[0.28em] text-brand-ink transition-colors duration-200 hover:bg-white"
+                  className="rounded-full border border-[rgba(21,23,26,0.12)] bg-white/45 px-4 py-2 text-small text-basalt transition-colors duration-200 hover:bg-white"
                 >
                   {link.label}
                 </a>
               ))}
               <a
                 href="#about"
-                className="inline-flex h-11 w-11 items-center justify-center rounded-full border border-[#E6E0D8] bg-white/60 text-brand-ink transition-colors duration-200 hover:bg-white"
+                className="inline-flex h-11 w-11 items-center justify-center rounded-full border border-[rgba(21,23,26,0.12)] bg-white/60 text-basalt transition-colors duration-200 hover:bg-white"
                 aria-label="Back to top"
               >
                 <ArrowUp size={16} />
               </a>
             </div>
           </div>
-          <div className="mt-8 flex flex-col gap-3 border-t border-black/5 pt-6 text-[10px] uppercase tracking-[0.28em] text-brand-muted md:flex-row md:items-center md:justify-between">
+          <div className="mt-8 flex flex-col gap-3 border-t border-black/5 pt-6 text-meta uppercase tracking-[0.2em] text-stone md:flex-row md:items-center md:justify-between">
             <span>© {year} Hasan Ekkeri</span>
             <span>Built with Next.js and Tailwind CSS</span>
           </div>

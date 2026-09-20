@@ -1,10 +1,7 @@
 'use client';
-
 import { type CSSProperties } from 'react';
 import { cn } from '@/lib/utils';
-
 type BackgroundVariant = 'page' | 'hero' | 'about' | 'projects' | 'contact';
-
 type LayerConfig = {
   size: string;
   offset: string;
@@ -14,21 +11,19 @@ type LayerConfig = {
   reverse?: boolean;
   hiddenOnMobile?: boolean;
 };
-
 type PatternConfig = {
   wrapper: string;
   baseOpacity: number;
   layers: LayerConfig[];
 };
-
 type BackgroundPatternProps = {
   variant?: BackgroundVariant;
   className?: string;
 };
-
 const variants: Record<BackgroundVariant, PatternConfig> = {
   page: {
-    wrapper: 'left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 -translate-y-[4rem]',
+    wrapper:
+      'left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 -translate-y-[4rem]',
     baseOpacity: 0.34,
     layers: [
       {
@@ -171,7 +166,6 @@ const variants: Record<BackgroundVariant, PatternConfig> = {
     ],
   },
 };
-
 const ringSets = [
   { radius: 64, dash: 'none', opacity: 0.8 },
   { radius: 94, dash: '220 34', opacity: 0.75 },
@@ -181,14 +175,12 @@ const ringSets = [
   { radius: 214, dash: '360 52', opacity: 0.4 },
   { radius: 244, dash: 'none', opacity: 0.22 },
 ];
-
 const orbitalPaths = [
   { radius: 108, x: -18, y: 6, opacity: 0.6 },
   { radius: 152, x: 16, y: -10, opacity: 0.45 },
   { radius: 196, x: -8, y: 12, opacity: 0.35 },
   { radius: 230, x: 22, y: -16, opacity: 0.28 },
 ];
-
 const nodes = [
   { radius: 94, angle: 20, size: 10 },
   { radius: 126, angle: 132, size: 12 },
@@ -196,10 +188,15 @@ const nodes = [
   { radius: 198, angle: 316, size: 14 },
   { radius: 230, angle: 54, size: 8 },
 ];
-
-function Layer({ size, offset, opacity, blur, animation, hiddenOnMobile }: LayerConfig) {
+function Layer({
+  size,
+  offset,
+  opacity,
+  blur,
+  animation,
+  hiddenOnMobile,
+}: LayerConfig) {
   const dimension = size;
-
   return (
     <div
       className={cn(
@@ -208,21 +205,26 @@ function Layer({ size, offset, opacity, blur, animation, hiddenOnMobile }: Layer
         hiddenOnMobile && 'hidden md:block',
         blur,
       )}
-      style={{
-        width: dimension,
-        height: dimension,
-        opacity,
-        animation,
-        willChange: 'transform',
-        transformOrigin: '50% 50%',
-      } as CSSProperties}
+      style={
+        {
+          width: dimension,
+          height: dimension,
+          opacity,
+          animation,
+          willChange: 'transform',
+          transformOrigin: '50% 50%',
+        } as CSSProperties
+      }
     >
+      {' '}
       <svg
         viewBox="0 0 560 560"
         className="h-full w-full overflow-visible"
         aria-hidden="true"
       >
+        {' '}
         <g fill="none" stroke="rgba(0,0,0,0.06)" strokeWidth="1">
+          {' '}
           {ringSets.map((ring, index) => (
             <circle
               key={index}
@@ -232,8 +234,7 @@ function Layer({ size, offset, opacity, blur, animation, hiddenOnMobile }: Layer
               strokeDasharray={ring.dash}
               strokeOpacity={ring.opacity}
             />
-          ))}
-
+          ))}{' '}
           {orbitalPaths.map((orbit, index) => (
             <ellipse
               key={index}
@@ -244,15 +245,14 @@ function Layer({ size, offset, opacity, blur, animation, hiddenOnMobile }: Layer
               transform={`translate(${orbit.x} ${orbit.y})`}
               strokeOpacity={orbit.opacity}
             />
-          ))}
-        </g>
-
+          ))}{' '}
+        </g>{' '}
         <g fill="rgba(0,0,0,0.12)">
+          {' '}
           {nodes.map((node, index) => {
             const radians = (node.angle * Math.PI) / 180;
             const x = 280 + Math.cos(radians) * node.radius;
             const y = 280 + Math.sin(radians) * node.radius;
-
             return (
               <circle
                 key={index}
@@ -263,29 +263,36 @@ function Layer({ size, offset, opacity, blur, animation, hiddenOnMobile }: Layer
                 style={{ filter: 'drop-shadow(0 6px 14px rgba(0,0,0,0.06))' }}
               />
             );
-          })}
-        </g>
-      </svg>
+          })}{' '}
+        </g>{' '}
+      </svg>{' '}
     </div>
   );
 }
-
-export default function BackgroundPattern({ variant = 'hero', className }: BackgroundPatternProps) {
+export default function BackgroundPattern({
+  variant = 'hero',
+  className,
+}: BackgroundPatternProps) {
   const config = variants[variant];
-
   return (
-    <div className={cn('pointer-events-none absolute inset-0 overflow-hidden', className)} aria-hidden="true">
+    <div
+      className={cn(
+        'pointer-events-none absolute inset-0 overflow-hidden',
+        className,
+      )}
+      aria-hidden="true"
+    >
+      {' '}
       <div
         className="absolute inset-0 bg-[radial-gradient(circle_at_top,rgba(0,0,0,0.025),transparent_65%)]"
         style={{ opacity: config.baseOpacity }}
-      />
-
+      />{' '}
       <div className={cn('absolute', config.wrapper)}>
+        {' '}
         {config.layers.map((layer, index) => (
           <Layer key={index} {...layer} />
-        ))}
-      </div>
-
+        ))}{' '}
+      </div>{' '}
       {variant === 'page' && (
         <div className="absolute inset-0 opacity-100">
           <div className="absolute -right-32 top-48 hidden h-168 w-2xl rounded-full border border-black/5 md:block" />

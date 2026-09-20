@@ -1,34 +1,57 @@
-@import "tailwindcss";
+@import 'tailwindcss';
 
-:root {
-  --background: #F8F7F4;
-  --foreground: #111111;
-  --muted: #5E5E5E;
-  --accent: #C6A26B;
-  --accent-hover: #B38C54;
-  --border: #E6E0D8;
-  --card: rgba(255, 255, 255, 0.55);
+@theme {
+  /* --- Surfaces & text ------------------------------------------------ */
+  --color-bone: #f4f2ed;
+  --color-sand: #eae6dd;
+  --color-basalt: #15171a;
+  --color-basalt-soft: #232629;
+  --color-stone: #5c6066;
+
+  /* Two accent tints: no single value clears 4.5:1 on both a near-white
+     and a near-black surface, so light and dark sections get their own. */
+  --color-rust: #a8401a;
+  --color-ember: #e8825c;
+
+  /* --- Type scale ------------------------------------------------------
+     Eight steps. Nothing outside this list should appear in a component. */
+  --text-display: clamp(3.2rem, 11vw, 6.5rem);
+  --text-display--line-height: 0.92;
+  --text-display--letter-spacing: -0.055em;
+
+  --text-h2: clamp(2.35rem, 5vw, 3.9rem);
+  --text-h2--line-height: 1;
+  --text-h2--letter-spacing: -0.045em;
+
+  --text-h3: clamp(1.75rem, 3.2vw, 2.6rem);
+  --text-h3--line-height: 1.06;
+  --text-h3--letter-spacing: -0.04em;
+
+  --text-lead: 1.1875rem;
+  --text-lead--line-height: 1.68;
+  --text-lead--letter-spacing: -0.015em;
+
+  --text-body: 1rem;
+  --text-body--line-height: 1.75;
+
+  --text-small: 0.875rem;
+  --text-small--line-height: 1.6;
+
+  --text-meta: 0.75rem;
+  --text-meta--line-height: 1.4;
+
+  --text-micro: 0.625rem;
+  --text-micro--line-height: 1.3;
 }
 
 html,
 body {
-  background-color: #F8F7F4 !important;
+  background-color: #f4f2ed;
   margin: 0;
   padding: 0;
   min-height: 100%;
-  height: auto;
   overflow-x: hidden;
-  overflow-y: auto;
   scroll-behavior: smooth;
-}
-
-@theme {
-  --color-brand-cream: #F8F7F4;
-  --color-brand-paper: #F2ECE2;
-  --color-brand-ink: #111111;
-  --color-brand-muted: #5E5E5E;
-  --color-brand-gold: #C6A26B;
-  --color-brand-bronze: #B38C54;
 }
 
 @layer base {
@@ -37,8 +60,6 @@ body {
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
     text-rendering: optimizeLegibility;
-    overscroll-behavior-y: auto;
-    scroll-behavior: smooth;
   }
 
   h1,
@@ -48,22 +69,16 @@ body {
   h5,
   h6 {
     font-family: var(--font-geist), sans-serif;
-    letter-spacing: -0.04em;
   }
 
-  p,
-  li,
-  a,
-  button,
-  input,
-  textarea,
-  select {
-    font-family: var(--font-inter), sans-serif;
+  /* The fixed navbar would otherwise sit on top of anchor targets. */
+  section[id] {
+    scroll-margin-top: 6.5rem;
   }
 
   ::selection {
-    background-color: rgba(198, 162, 107, 0.28);
-    color: var(--foreground);
+    background-color: rgba(168, 64, 26, 0.18);
+    color: #15171a;
   }
 }
 
@@ -90,10 +105,18 @@ body {
 
   @media (min-width: 768px) {
     .container-tight {
-      max-width: 1180px;
       padding-left: 2rem;
       padding-right: 2rem;
     }
+  }
+
+  /* One caps treatment for the whole site, instead of three that differ by
+     amounts nobody can perceive. */
+  .label {
+    font-size: var(--text-meta);
+    line-height: var(--text-meta--line-height);
+    text-transform: uppercase;
+    letter-spacing: 0.2em;
   }
 }
 
@@ -101,10 +124,25 @@ body {
   .no-scrollbar::-webkit-scrollbar {
     display: none;
   }
-  
+
   .no-scrollbar {
     -webkit-overflow-scrolling: touch;
     scrollbar-width: none;
     -ms-overflow-style: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
   }
 }

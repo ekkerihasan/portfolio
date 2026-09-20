@@ -1,0 +1,1 @@
+node ./wire-gh.mjs 2>/dev/null || node "$TMPDIR/wire-gh.mjs"; rm -f ./wire-gh.mjs; grep -n "GitHubActivity" src/app/page.tsx; grep -n "Activity" src/components/Navbar.tsx src/components/Footer.tsx; echo "=== remaining project repo links ==="; grep -n "github:" src/components/ProjectCard.tsx

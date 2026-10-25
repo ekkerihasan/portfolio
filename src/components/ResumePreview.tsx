@@ -2,7 +2,7 @@
 import { useEffect, useRef } from 'react';
 import { createPortal } from 'react-dom';
 import { Download, ExternalLink, FileText, X } from 'lucide-react';
-const RESUME_SRC = '/hasan-fullstack.pdf';
+const RESUME_SRC = '/hasan-updated-resume.pdf';
 const RESUME_FILE = 'hasan-ekkeri-resume.pdf';
 type ResumePreviewProps = { open: boolean; onClose: () => void };
 export default function ResumePreview({ open, onClose }: ResumePreviewProps) {

@@ -1,7 +1,6 @@
 import type { Metadata } from 'next';
 import { Geist, Inter } from 'next/font/google';
 import './globals.css';
-import BackgroundPattern from '@/components/BackgroundPattern';
 
 const inter = Inter({
   variable: '--font-inter',
@@ -29,9 +28,6 @@ export default function RootLayout({
       <body
         className={`${inter.variable} ${geist.variable} antialiased bg-bone text-basalt min-h-screen relative overflow-x-hidden`}
       >
-        <BackgroundPattern variant="page" className="fixed inset-0 -z-50" />
-        <div className="fixed inset-0 -z-40 pointer-events-none bg-[radial-gradient(circle_at_top,rgba(255,255,255,0.18),transparent_48%)]" />
-
         <main className="relative z-10 w-full">{children}</main>
       </body>
     </html>

@@ -112,13 +112,13 @@ export default function Hero() {
               <div className="relative overflow-hidden rounded-[1.75rem] border border-black/4 bg-white/35 shadow-[0_18px_50px_rgba(17,17,17,0.04)] md:rounded-4xl md:shadow-none">
                 <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_right,rgba(168,64,26,0.10),transparent_45%)]" />
                 <Image
-                  src="/hasan.png"
+                  src="/hasan-ekkeri.webp"
                   alt="Hasan Ekkeri"
-                  width={960}
-                  height={1280}
+                  width={1200}
+                  height={1147}
                   priority
                   sizes="(min-width: 1024px) 28rem, (min-width: 640px) 20rem, 90vw"
-                  className="h-75 w-full object-cover object-[50%_18%] sm:h-95 md:h-full md:object-[50%_12%]"
+                  className="relative h-75 w-full object-contain object-bottom pt-6 sm:h-95 md:h-auto md:pt-10"
                 />
               </div>
 

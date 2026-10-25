@@ -5,7 +5,6 @@ import { useCallback, useEffect, useRef, useState } from 'react';
 import { ArrowDown, ArrowUpRight, ArrowUp, Pause, Play, Copy, Check, Menu, X } from 'lucide-react';
 import ProjectShowcase from './ProjectShowcase';
 import ConceptCursor from './ConceptCursor';
-import ParticleLoader from './ParticleLoader';
 import useSmoothScroll from './useSmoothScroll';
 import ResumePreview from '@/components/ResumePreview';
 import ParticlePortrait from './ParticlePortrait';
@@ -24,49 +23,54 @@ export default function Concept() {
   const journey = useRef<HTMLElement>(null);
   const menuButton = useRef<HTMLButtonElement>(null);
   const [menuOpen, setMenuOpen] = useState(false);
-  const [loading, setLoading] = useState(true);
-  const [portraitReady, setPortraitReady] = useState(false);
-  const [fontsReady, setFontsReady] = useState(false);
-  const finishLoading = useCallback(() => {
-    const skippedWithFocus = document.activeElement?.closest('[data-intro-loader]');
-    setLoading(false);
-    if (skippedWithFocus) requestAnimationFrame(() => root.current?.querySelector<HTMLElement>('[aria-label="Hasan Ekkeri home"]')?.focus({ preventScroll: true }));
-  }, []);
-  const markPortraitReady = useCallback(() => setPortraitReady(true), []);
   const [paused, setPaused] = useState(false);
   const [resumeOpen, setResumeOpen] = useState(false);
   const [copyState, setCopyState] = useState<'idle' | 'copied' | 'failed'>('idle');
   const copyTimeout = useRef<ReturnType<typeof setTimeout> | null>(null);
   const closeResume = useCallback(() => setResumeOpen(false), []);
-  useSmoothScroll(loading || resumeOpen);
-  useEffect(() => {
-    let alive = true;
-    document.fonts.ready.then(() => { if (alive) setFontsReady(true); });
-    return () => { alive = false; };
-  }, []);
+  const updateJourney = useRef<() => void>(() => {});
+  useSmoothScroll(resumeOpen, () => updateJourney.current());
 
   useEffect(() => {
-    let frame = 0;
+    const element = journey.current;
+    const intro = element?.querySelector<HTMLElement>('[data-intro]');
+    const foot = element?.querySelector<HTMLElement>('[data-hero-foot]');
+    const reduced = window.matchMedia('(prefers-reduced-motion: reduce)');
+    // Layout is measured only on resize so scrolling never forces a reflow.
+    let frame = 0, top = 0, range = 1, desktop = false, lastProgress = -1;
+    const measure = () => {
+      if (!element) return;
+      top = element.getBoundingClientRect().top + window.scrollY;
+      range = Math.max(1, element.offsetHeight - window.innerHeight);
+      desktop = window.innerWidth >= 1024 && !reduced.matches;
+      lastProgress = -1;
+    };
     const update = () => {
       frame = 0;
-      if (!journey.current) return;
-      const rect = journey.current.getBoundingClientRect();
-      const progress = Math.max(0, Math.min(1, -rect.top / Math.max(1, rect.height - window.innerHeight)));
-      journey.current.style.setProperty('--progress', String(progress));
-      const intro = journey.current.querySelector<HTMLElement>('[data-intro]');
-      const foot = journey.current.querySelector<HTMLElement>('[data-hero-foot]');
-      if (foot) foot.inert = window.innerWidth >= 1024 && progress > .22 && !window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-      if (intro) intro.inert = window.innerWidth >= 1024 && progress < .48 && !window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      if (!element) return;
+      const progress = Math.max(0, Math.min(1, (window.scrollY - top) / range));
+      if (progress === lastProgress) return;
+      lastProgress = progress;
+      element.style.setProperty('--progress', progress.toFixed(4));
+      const footInert = desktop && progress > .22, introInert = desktop && progress < .48;
+      if (foot && foot.inert !== footInert) foot.inert = footInert;
+      if (intro && intro.inert !== introInert) intro.inert = introInert;
     };
+    updateJourney.current = update;
     const scroll = () => { if (!frame) frame = requestAnimationFrame(update); };
+    const resize = () => { measure(); scroll(); };
+    measure();
     update();
+    const sizeObserver = new ResizeObserver(resize);
+    if (element) sizeObserver.observe(element);
+    reduced.addEventListener('change', resize);
     window.addEventListener('scroll', scroll, { passive: true });
-    window.addEventListener('resize', scroll);
+    window.addEventListener('resize', resize);
     const observer = new IntersectionObserver(entries => {
       entries.forEach(entry => { if (entry.isIntersecting) { entry.target.classList.add(styles.revealed); observer.unobserve(entry.target); } });
     }, { threshold: .08 });
     root.current?.querySelectorAll('[data-reveal]').forEach(element => observer.observe(element));
-    return () => { cancelAnimationFrame(frame); observer.disconnect(); window.removeEventListener('scroll', scroll); window.removeEventListener('resize', scroll); };
+    return () => { cancelAnimationFrame(frame); observer.disconnect(); sizeObserver.disconnect(); reduced.removeEventListener('change', resize); updateJourney.current = () => {}; window.removeEventListener('scroll', scroll); window.removeEventListener('resize', resize); };
   }, []);
 
   useEffect(() => {
@@ -86,13 +90,12 @@ export default function Concept() {
     copyTimeout.current = setTimeout(() => setCopyState('idle'), 2500);
   }
 
-  return <div className={styles.concept} ref={root} id="concept-top" data-concept-root aria-busy={loading}>
-    {loading && <ParticleLoader ready={portraitReady && fontsReady} onComplete={finishLoading} />}
-    <ConceptCursor enabled={!loading && !resumeOpen} />
-    <div className={styles.siteContent} inert={loading}>
+  return <div className={styles.concept} ref={root} id="concept-top" data-concept-root>
+    <ConceptCursor enabled={!resumeOpen} />
+    <div className={styles.siteContent}>
     <a href="#concept-work" className={styles.skip}>Skip to selected work</a>
     <header className={styles.header}>
-      <a href="#concept-top" className={styles.wordmark} aria-label="Hasan Ekkeri home">he<span>↗</span></a>
+      <a href="#concept-top" className={styles.wordmark} aria-label="Hasan Ekkeri home"><i className={styles.wordmarkMark} aria-hidden="true" /><span>↗</span></a>
       <span className={styles.headerNote}>Independent mind. Thoughtful work.</span>
       <nav aria-label="Portfolio navigation" className={styles.nav} onBlur={event => { if (!event.currentTarget.contains(event.relatedTarget as Node)) setMenuOpen(false); }}>
         <div className={styles.desktopNav}>{navigation.map(link => <a href={link.href} key={link.href}>{link.label}</a>)}</div>
@@ -104,7 +107,7 @@ export default function Concept() {
     <section className={styles.journey} ref={journey} aria-labelledby="concept-title">
       <div id="concept-about" className={styles.aboutAnchor} aria-hidden="true" />
       <div className={styles.heroSticky}>
-        <div className={styles.portraitStage}><ParticlePortrait paused={paused} className={styles.particles} assemble={!loading} onReady={markPortraitReady} /></div>
+        <div className={styles.portraitStage}><ParticlePortrait paused={paused} className={styles.particles} /></div>
         <div className={styles.heroNames}><h1 id="concept-title">Hasan Ekkeri</h1><p>Creative frontend<br />developer & UI enthusiast.</p></div>
         <div className={styles.heroFoot} data-hero-foot><span className={styles.available}><i /> Open to internships & collaborations</span><a href="#concept-about">Scroll to discover <ArrowDown size={15} /></a></div>
         <div className={styles.intro} data-intro><p className={styles.eyebrow}>A little about me</p><h2>Interfaces that<br />feel as good<br />as they <em>look.</em></h2><p>I’m a frontend developer with an eye for UI and UX. I bring design and code together to build thoughtful web experiences, from the first impression to the smallest interaction.</p><button onClick={() => setResumeOpen(true)} className={styles.inlineLink}>A little more about me <span>— View résumé <ArrowUpRight size={15} /></span></button></div>

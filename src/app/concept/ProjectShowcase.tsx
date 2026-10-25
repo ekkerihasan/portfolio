@@ -22,20 +22,25 @@ export default function ProjectShowcase() {
   const details = useRef<(HTMLDetailsElement | null)[]>([]);
   useEffect(() => {
     let frame = 0;
+    let offsets: number[] = [];
+    // Panel positions only change when the page resizes, so measure then rather than on every scroll.
+    const measure = () => { offsets = panels.current.map(panel => panel ? panel.getBoundingClientRect().top + window.scrollY : Infinity); };
     const update = () => {
       frame = 0;
-      const marker = window.innerHeight * .35;
+      const marker = window.scrollY + window.innerHeight * .35;
       let next = 0;
-      panels.current.forEach((panel, index) => {
-        if (panel && panel.getBoundingClientRect().top <= marker) next = index;
-      });
+      offsets.forEach((top, index) => { if (top <= marker) next = index; });
       setActive(next);
     };
     const schedule = () => { if (!frame) frame = requestAnimationFrame(update); };
+    const resize = () => { measure(); schedule(); };
+    measure();
     update();
+    const observer = new ResizeObserver(resize);
+    observer.observe(document.body);
     window.addEventListener('scroll', schedule, { passive: true });
-    window.addEventListener('resize', schedule);
-    return () => { cancelAnimationFrame(frame); window.removeEventListener('scroll', schedule); window.removeEventListener('resize', schedule); };
+    window.addEventListener('resize', resize);
+    return () => { cancelAnimationFrame(frame); observer.disconnect(); window.removeEventListener('scroll', schedule); window.removeEventListener('resize', resize); };
   }, []);
   function select(index: number, focus = false) {
     const next = (index + projects.length) % projects.length;
@@ -65,7 +70,7 @@ export default function ProjectShowcase() {
         <a href="https://github.com/ekkerihasan" target="_blank" rel="noreferrer" className={styles.indexGithub}>More experiments on GitHub <ArrowUpRight size={14} /></a>
       </div>
       <div className={styles.projectPanel}>
-        {projects.map((project, index) => <article ref={element => { panels.current[index] = element; }} id={`project-panel-${index}`} role="tabpanel" aria-labelledby={`project-tab-${index}`} tabIndex={0} key={project.title} data-active={active === index} className={styles.activeProject}>
+        {projects.map((project, index) => <div ref={element => { panels.current[index] = element; }} id={`project-panel-${index}`} role="tabpanel" aria-labelledby={`project-tab-${index}`} tabIndex={0} key={project.title} data-active={active === index} className={styles.activeProject}>
           <button className={`${styles.showcaseVisual} ${styles[`tone${index % 3}`]}`} onClick={() => { const detail = details.current[index]; if (detail) detail.open = !detail.open; }} onPointerMove={move} onPointerLeave={event => { event.currentTarget.style.setProperty('--mx', '0px'); event.currentTarget.style.setProperty('--my', '0px'); }} data-cursor="view" data-cursor-label="Explore" aria-label={`Explore ${project.title} build story`}>
             <span className={styles.showcaseVisualTop}><span>{project.category}</span><span>{project.year} ↗</span></span>
             <span className={styles.showcaseImage} data-loaded={!!loadedImages[project.image]}><span className={styles.previewPlaceholder} aria-hidden="true">{failedImages[project.image] ? 'Preview unavailable' : 'Loading preview…'}</span><Image onLoad={() => setLoadedImages(previous => ({ ...previous, [project.image]: true }))} onError={() => setFailedImages(previous => ({ ...previous, [project.image]: true }))} src={project.image} alt={project.imageAlt} fill sizes="(min-width: 1024px) 60vw, 90vw" className="object-contain" loading={index === 0 ? 'eager' : 'lazy'} /></span>
@@ -76,7 +81,7 @@ export default function ProjectShowcase() {
           <div className={styles.showcaseTools}>{project.stack.map(tool => <span key={tool}>{tool}</span>)}</div>
           <div className={styles.showcaseActions}><div className={styles.projectLinks}>{project.live && <a href={project.live} target="_blank" rel="noreferrer" aria-label={`Visit ${project.title}`}>Live site <ArrowUpRight size={15} /></a>}{project.github && <a href={project.github} target="_blank" rel="noreferrer" aria-label={`View ${project.title} source code`}>Source code <ArrowUpRight size={15} /></a>}</div></div>
           <details ref={element => { details.current[index] = element; }} className={styles.details}><summary>Behind the build <Plus size={16} /></summary><div><section><h4>The idea</h4><p>{project.why}</p></section><section><h4>My contribution</h4><p>{project.focus}</p></section></div></details>
-        </article>)}
+        </div>)}
       </div>
     </div>
   </section>;

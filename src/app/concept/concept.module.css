@@ -27,6 +27,9 @@
 .header { position: absolute; z-index: 20; top: 0; left: 0; right: 0; padding: 28px 5%; display: flex; justify-content: space-between; align-items: center; gap: 24px; }
 .wordmark { display: inline-flex; align-items: baseline; gap: 4px; font-size: 34px; font-weight: 600; letter-spacing: -.08em; }
 .wordmark span { color: var(--accent); font-size: 20px; }
+.wordmarkMark { display: block; align-self: center; width: 38px; height: 25px; background: var(--text); -webkit-mask: url(/he-mark.png) center / contain no-repeat; mask: url(/he-mark.png) center / contain no-repeat; animation: markReveal 1.1s cubic-bezier(.22,1,.36,1) .15s both; }
+/* Wipes the logo in left to right on load; clip-path and opacity stay on the compositor. */
+@keyframes markReveal { from { clip-path: inset(0 100% 0 0); opacity: .2; } to { clip-path: inset(0 0 0 0); opacity: 1; } }
 .headerNote { color: var(--muted); font-size: 12px; letter-spacing: 0; }
 .nav { position: relative; }
 .desktopNav { display: flex; align-items: center; gap: 30px; font-size: 13px; }
@@ -40,7 +43,9 @@
 .journey { position: relative; height: 220svh; --progress: 0; }
 .heroSticky { position: sticky; top: 0; height: 100svh; min-height: 600px; overflow: clip; }
 .portraitStage { position: absolute; inset: 3% 18% -8%; transform-origin: 50% 60%; transform: translateX(clamp(0%, calc(var(--progress) * 82.5%), 55%)) scale(calc(1 - var(--progress) * .12)); will-change: transform; }
-.particles { width: 100%; height: 100%; display: block; mask-image: linear-gradient(to bottom, #000 80%, transparent 99%); }
+.particles { width: 100%; height: 100%; display: block; }
+/* The canvas draws its own fade; only the static fallback image needs the mask. */
+div.particles { mask-image: linear-gradient(to bottom, #000 80%, transparent 99%); }
 .heroNames { position: absolute; z-index: 2; inset: 0 5%; display: grid; grid-template-columns: minmax(0, 1fr) 1.4fr minmax(0, 1fr); align-items: center; gap: 24px; opacity: clamp(0, calc(1 - var(--progress) * 5), 1); transform: translateY(calc(var(--progress) * -60px)); pointer-events: none; }
 .heroNames h1, .heroNames > p { font-size: clamp(22px, 1.8vw, 30px); font-weight: 400; letter-spacing: -.045em; line-height: 1.2; }
 .heroNames > p { grid-column: 3; justify-self: end; max-width: 270px; }
@@ -148,19 +153,6 @@
 /* These apply only while this route is mounted. */
 :global(html):has(.concept), :global(body):has(.concept) { overflow-x: clip; overflow-y: visible; }
 :global(html.lenis):has(.concept), :global(html.lenis):has(.concept) :global(body) { scroll-behavior: auto !important; }
-.loader { position: fixed; inset: 0; z-index: 200; background: var(--canvas); color: var(--text); animation: loaderAppear .3s both; }
-@keyframes loaderAppear { from { opacity: 0; } to { opacity: 1; } }
-.loader canvas { position: absolute; inset: 0; width: 100%; height: 100%; }
-.loaderTop, .loaderBottom { position: absolute; left: 6%; right: 6%; display: flex; justify-content: space-between; gap: 25px; align-items: center; }
-.loaderTop { top: 35px; font-size: 10px; letter-spacing: .1em; }
-.loaderTop button { background: none; border: 0; font-size: 11px; min-height: 44px; padding: 0; letter-spacing: 0; color: var(--muted); }
-.loaderBottom { bottom: 60px; align-items: flex-end; }
-.loaderBottom > div { display: flex; flex-direction: column; gap: 10px; }
-.loaderCaption { font-size: 14px; }
-.loaderStatus { font-size: 10px; color: var(--muted); letter-spacing: .025em; }
-.loaderCount { font-size: 64px; line-height: 1; letter-spacing: -.065em; font-variant-numeric: tabular-nums; color: var(--accent); }
-.loaderTrack { position: absolute; bottom: 0; left: 0; right: 0; height: 2px; background: #ffffff12; }
-.loaderTrack > div { height: 100%; background: var(--accent); transform: scaleX(0); transform-origin: left; }
 .cursor { position: fixed; left: 0; top: 0; z-index: 150; width: 0; height: 0; pointer-events: none; opacity: 0; transition: opacity .2s; }
 .cursor[data-visible=true] { opacity: 1; }
 .cursorDot { position: absolute; width: 4px; height: 4px; background: #f0f2e7; border-radius: 50%; transform: translate(-50%,-50%); }
@@ -181,7 +173,7 @@
   .journey { height: auto; }
   .heroSticky { position: relative; height: auto; min-height: 0; overflow: hidden; padding-top: 100svh; }
   .portraitStage { inset: 10svh 4% auto; height: 87svh; transform: none; }
-  .particles { mask-image: linear-gradient(to bottom, #000 70%, transparent 100%); }
+  div.particles { mask-image: linear-gradient(to bottom, #000 70%, transparent 100%); }
   .heroNames { inset: 0; height: 100svh; display: block; opacity: 1; transform: none; }
   .heroNames h1 { position: absolute; top: 115px; left: 6%; font-size: clamp(27px, 4vw, 38px); }
   .heroNames > p { position: absolute; bottom: 155px; right: 6%; text-align: right; font-size: clamp(25px, 3.8vw, 34px); max-width: 85%; text-shadow: 0 2px 15px #242426; }
@@ -275,10 +267,6 @@
   .footer { display: grid; grid-template-columns: minmax(0, 1fr) auto; padding: 22px 7% 28px; align-items: center; gap: 6px 18px; font-size: 12px; line-height: 1.6; letter-spacing: -.01em; }
   .footer > span:nth-child(2) { grid-column: 1 / -1; order: 3; font-size: 11px; color: #b0b3ac; }
   .footer a { margin-left: 0; gap: 7px; }
-  .loaderTop { top: 20px; }
-  .loaderBottom { bottom: 40px; }
-  .loaderCount { font-size: 48px; }
-  .loaderCaption { font-size: 12px; }
   .cursor { display: none; }
 }
 @media (prefers-reduced-motion: reduce) {
@@ -289,17 +277,15 @@
   .heroFoot { top: calc(100svh - 105px); bottom: auto; opacity: 1; }
   .intro { opacity: 1; transform: none; position: relative; top: auto; left: auto; width: auto; max-width: 580px; margin: 60px 8% 90px; }
   .motionToggle, .cursor { display: none; }
+  .wordmarkMark { animation: none; }
   .revealed, .activeProject { animation: none; }
   .showcaseImage, .showcaseVisual:hover .showcaseImage { transform: none; transition: none; }
-  .loader { display: none; }
 }
 
 .previewPlaceholder { position: absolute; inset: 0; display: grid; place-items: center; font-size: 10px; letter-spacing: .08em; color: #b9c4b2; background: #202725; z-index: 1; }
 .showcaseImage[data-loaded=true] .previewPlaceholder { display: none; }
 .showcaseImage[data-loaded=false] img { opacity: 0; }
 .showcaseImage img { transition: opacity .35s; }
-.loader[data-exiting=true] { animation: loaderExit .55s cubic-bezier(.22,1,.36,1) both; pointer-events: none; }
-@keyframes loaderExit { to { opacity: 0; transform: translateY(-20px); } }
 @media (prefers-reduced-motion: reduce) { .showcaseImage img { transition: none; } }
 
 

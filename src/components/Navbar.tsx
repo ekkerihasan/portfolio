@@ -50,9 +50,16 @@ export default function Navbar() {
     <div className="fixed top-4 left-1/2 z-50 w-[min(90vw,1180px)] -translate-x-1/2 pointer-events-none">
       <nav className="pointer-events-auto rounded-3xl border border-black/5 bg-white/75 backdrop-blur-[20px] shadow-[0_16px_40px_rgba(17,17,17,0.06)]">
         <div className="flex h-18 items-center justify-between gap-4 px-4 md:px-6">
-          <a href="#about" className="flex items-center gap-3">
-            <div className="flex h-10 w-10 items-center justify-center rounded-2xl bg-basalt text-small font-semibold text-white">
-              HE
+          <a href="#about" className="flex items-center gap-3" aria-label="Hasan Ekkeri, home">
+            <div className="flex h-10 w-10 items-center justify-center rounded-2xl bg-basalt">
+              <span
+                aria-hidden="true"
+                className="h-4 w-6 bg-white"
+                style={{
+                  mask: 'url(/he-mark.png) center / contain no-repeat',
+                  WebkitMask: 'url(/he-mark.png) center / contain no-repeat',
+                }}
+              />
             </div>
             <div className="hidden sm:flex flex-col leading-none">
               <span className="text-meta uppercase tracking-[0.2em] text-basalt">

@@ -15,6 +15,7 @@ const navItems: NavItem[] = [
   { label: 'Skills', href: 'skills' },
   { label: 'Projects', href: 'projects' },
   { label: 'Contact', href: 'contact' },
+  { label: 'New design ↗', href: '/concept' },
 ];
 
 export default function Navbar() {
@@ -67,7 +68,7 @@ export default function Navbar() {
             {navItems.map((item) => (
               <a
                 key={item.href}
-                href={`#${item.href}`}
+                href={item.href.startsWith('/') ? item.href : `#${item.href}`}
                 className={cn(
                   'transition-colors duration-200 hover:text-basalt',
                   activeSection === item.href && 'text-basalt',
@@ -101,7 +102,7 @@ export default function Navbar() {
               {navItems.map((item) => (
                 <a
                   key={item.href}
-                  href={`#${item.href}`}
+                  href={item.href.startsWith('/') ? item.href : `#${item.href}`}
                   onClick={() => setIsOpen(false)}
                   className={cn(
                     'flex items-center justify-between rounded-2xl px-4 py-3 text-small text-basalt transition-colors duration-200 hover:bg-black/3',
